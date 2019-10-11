@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_phone" />
+
+            <EditText
+                android:id="@+id/ed_phone"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                android:paddingLeft="14dp"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_idenfy_code" />
+
+            <EditText
+                android:id="@+id/ed_idenfy_code"
+                style="@style/edittext_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:paddingLeft="14dp"
+                android:singleLine="true" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray" />
+
+            <TextView
+                android:id="@+id/tv_get_idenfy_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="@string/get_identifying_code"
+                android:textColor="@color/btn_color" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_invitation_code" />
+
+            <EditText
+                android:id="@+id/ed_invatation_code"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入推荐码"
+                android:inputType="number"
+                android:paddingLeft="14dp"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_pwd" />
+
+            <EditText
+                android:id="@+id/ed_pwd"
+                style="@style/edittext_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:digits="@string/pwd_type"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:paddingLeft="14dp"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/btn_style"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
+        android:text="确定" />
+
+
+</LinearLayout>

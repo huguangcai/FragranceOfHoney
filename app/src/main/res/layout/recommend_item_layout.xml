@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+        <ImageView
+            android:id="@+id/img_goods_tupian"
+            android:layout_width="165dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_goods_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="斯科"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥"
+                android:textColor="@color/btn_color" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="120"
+                android:textColor="@color/btn_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="已拼团"
+                android:visibility="gone"
+                android:textColor="@color/hint_text_color" />
+
+            <TextView
+                android:id="@+id/tv_pintuan_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="1000"
+                android:visibility="gone"
+                android:textColor="@color/hint_text_color" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

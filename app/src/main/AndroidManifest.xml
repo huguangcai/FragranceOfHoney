@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ysxsoft.fragranceofhoney">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- unavailable in API 23 -->
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application
+        android:name=".utils.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/img_logo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/img_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640" />
+
+        <activity android:name=".view.LauncherActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".view.MyInfoActivity" />
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.RegisterActivity" />
+        <activity android:name=".view.RegisterAgreementActivity" />
+        <activity android:name=".view.SettingActivity" />
+        <activity android:name=".view.AccountSecurityActivity" />
+        <activity android:name=".view.TradePwdActivity" />
+        <activity android:name=".view.ModifyPhoneNumActivity" />
+        <activity android:name=".view.ModifyLoginPwdActivity" />
+        <activity android:name=".view.AboutPlatformActivity" />
+        <activity android:name=".view.VersionUpdateActivity" />
+        <activity android:name=".view.HelpCenterActivity" />
+        <activity android:name=".view.SettingEditorActivity" />
+        <activity android:name=".view.UserNameActivity" />
+        <activity android:name=".view.CollectActivity" />
+        <activity android:name=".view.SexActivity" />
+        <activity android:name=".view.MyWalletActivity" />
+        <activity android:name=".view.WalletDetailActivity" />
+        <activity android:name=".view.RechargeActivity" />
+        <activity android:name=".view.WithdrawCashActivity" />
+        <activity android:name=".view.MyCardBagActivity" />
+        <activity android:name=".view.EditorMyCardBagActivity" />
+        <activity android:name=".view.MyTeamActivity" />
+        <activity android:name=".view.GetGoodsAddressActivity" />
+        <activity android:name=".view.AddressManagerActivity" />
+        <activity android:name=".view.AllOrderActivity" />
+        <activity android:name=".view.SearchDataActivity" />
+        <activity android:name=".view.BindingPhoneNumActivity" />
+        <activity android:name=".view.ShareRegisterActivity" />
+        <activity android:name=".view.ShareLoadActivity" />
+        <activity android:name=".view.InviteQrcodeActivity" />
+        <activity android:name=".view.ModifyTradePwdActivity" />
+        <activity
+            android:name=".view.WebViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity android:name=".view.WebStartActivity" />
+        <activity android:name=".view.PaySucessfulActivity" />
+        <activity android:name=".view.InfoDetailActivity" />
+        <activity android:name=".view.SecondHomeActivity" />
+
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <!--share  start-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--微博-->
+
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <!--QQ-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent101541625" /><!--100424468  修改为自己的appid-->
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity android:name=".view.ShopCarActivity" />
+
+    </application>
+
+</manifest>

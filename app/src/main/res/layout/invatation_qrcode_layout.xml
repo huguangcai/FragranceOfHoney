@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/img_my_team_bg" />
+
+    <FrameLayout
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/qrcode_bg_shape">
+
+        <ImageView
+            android:id="@+id/img_qrcode"
+            android:layout_width="163dp"
+            android:layout_height="163dp"
+            android:layout_gravity="center"
+            android:background="@mipmap/ic_launcher" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的邀请码："
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tv_invitation_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123456"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_share_invitation"
+        style="@style/button_style"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="立即分享邀请好友" />
+
+
+</LinearLayout>

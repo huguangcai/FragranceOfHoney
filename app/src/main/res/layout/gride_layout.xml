@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <com.ysxsoft.fragranceofhoney.widget.MyRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+
+    <com.stx.xhb.pagemenulibrary.PageMenuLayout
+        android:id="@+id/pagemenu"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:pagemenu_row_count="2"
+        app:pagemenu_span_count="4"/>
+
+</LinearLayout>

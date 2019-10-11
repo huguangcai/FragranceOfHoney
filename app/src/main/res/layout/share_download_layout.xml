@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/img_download_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/fl_ios"
+        style="@style/button_style"
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="440dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_ios" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="iPhone下载"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_android"
+        style="@style/button_style"
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_android" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Android下载"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

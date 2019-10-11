@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll_account_security"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="账户安全" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_about_platform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="关于平台" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_customer_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="客服电话" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_version_updata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="版本功更新" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_help_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="帮助中心" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_login_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="退出登陆" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/img_right_arrow" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

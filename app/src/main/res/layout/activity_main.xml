@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="49dp"
+        android:visibility="gone"/>
+    <com.ysxsoft.fragranceofhoney.widget.MyViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="49dp" />
+
+
+    <RadioGroup
+        android:id="@+id/rg_home"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/rb_selector"
+            android:drawableTop="@drawable/home_selector"
+            android:gravity="center"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_classify"
+            style="@style/rb_selector"
+            android:drawableTop="@drawable/classify_selector"
+            android:gravity="center"
+            android:text="分类" />
+
+        <RadioButton
+            android:id="@+id/rb_shop_card"
+            style="@style/rb_selector"
+            android:drawableTop="@drawable/shop_card_selector"
+            android:gravity="center"
+            android:text="购物车" />
+
+        <RadioButton
+            android:id="@+id/rb_my"
+            style="@style/rb_selector"
+            android:drawableTop="@drawable/my_selector"
+            android:gravity="center"
+            android:text="我的" />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

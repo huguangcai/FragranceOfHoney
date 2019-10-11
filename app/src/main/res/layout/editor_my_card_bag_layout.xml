@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="真实姓名:" />
+
+            <EditText
+                android:id="@+id/ed_name"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="请输入持卡人姓名"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证号码:" />
+
+            <EditText
+                android:id="@+id/ed_Id_card"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="请正确填写身份证号码"
+                android:digits="0123456789X"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开户银行:" />
+
+            <LinearLayout
+                android:id="@+id/ll_select_open_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ed_bank_card"
+                    style="@style/edittext_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:hint="请输入开户银行"
+                    android:inputType="text"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/tv_bank_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:hint="选择开户银行"
+                    android:inputType="text"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/img_right_arrow"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="银行卡号:" />
+
+            <EditText
+                android:id="@+id/ed_bank_card_num"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="请输入银行卡号"
+                android:inputType="number"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号:" />
+
+            <EditText
+                android:id="@+id/ed_phone_num"
+                style="@style/edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/gray_line_style"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/identifying_code" />
+
+            <EditText
+                android:id="@+id/ed_idenfy_code"
+                style="@style/edittext_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:singleLine="true" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray" />
+
+            <TextView
+                android:id="@+id/tv_get_idenfy_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="22dp"
+                android:text="@string/get_identifying_code"
+                android:textColor="@color/btn_color" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/btn_style"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
+        android:text="确定添加" />
+
+
+</LinearLayout>

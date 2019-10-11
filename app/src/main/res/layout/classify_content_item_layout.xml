@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="5dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.ysxsoft.fragranceofhoney.widget.CircleImageView
+        android:id="@+id/img_goods_tupian"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_girl_normal" />
+
+    <TextView
+        android:id="@+id/tv_goods_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:text="商品名称" />
+
+</LinearLayout>
