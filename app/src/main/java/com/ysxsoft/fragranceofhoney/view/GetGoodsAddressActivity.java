@@ -28,7 +28,6 @@ import com.ysxsoft.fragranceofhoney.modle.IsTrueAddressBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
-import com.ysxsoft.fragranceofhoney.widget.HomeBannerView;
 
 import java.lang.ref.WeakReference;
 import java.security.IdentityScope;
