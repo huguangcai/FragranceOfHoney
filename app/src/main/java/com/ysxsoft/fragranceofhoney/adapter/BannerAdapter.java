@@ -15,7 +15,6 @@ import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.modle.HomeLunBoBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.ImageLoadUtil;
-import com.ysxsoft.fragranceofhoney.widget.HomeBannerView;
 import com.ysxsoft.fragranceofhoney.widget.MyVideoView;
 
 import java.util.List;
