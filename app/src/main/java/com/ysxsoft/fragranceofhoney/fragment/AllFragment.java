@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ysxsoft.fragranceofhoney.R;
-import com.ysxsoft.fragranceofhoney.widget.HomeBannerView;
 
 /**
  * 全部
