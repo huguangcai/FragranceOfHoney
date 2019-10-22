@@ -17,6 +17,7 @@ import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.LauncherImgBean;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
+import com.ysxsoft.fragranceofhoney.utils.BaseApplication;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 
 import rx.Observer;
@@ -83,7 +84,7 @@ public class LauncherActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onCompleted() {
                         if ("0".equals(launcherImgBean.getCode())){
-                            Glide.with(mContext).load(launcherImgBean.getData().getImgurl()).into(img_launcher);
+                            Glide.with(BaseApplication.getContext()).load(launcherImgBean.getData().getImgurl()).into(img_launcher);
                         }
                     }
 
