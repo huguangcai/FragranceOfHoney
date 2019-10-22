@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ysxsoft.fragranceofhoney.R;
@@ -30,6 +31,7 @@ import com.ysxsoft.fragranceofhoney.modle.RecommendBean;
 import com.ysxsoft.fragranceofhoney.utils.ActivityPageManager;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.CustomDialog;
+import com.ysxsoft.fragranceofhoney.utils.DeviceUtils;
 import com.ysxsoft.fragranceofhoney.utils.IsLoginUtils;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 import com.ysxsoft.fragranceofhoney.view.LoginActivity;
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     private List<HomeClassifyBean.DataBean> baDatas;
     private List<HomeLunBoBean.DataBean> lunBoDatas;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,6 +80,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        requesrInfoData();
+    }
+
+    @Override
     public void onRefresh() {
         requestLunBoData();//轮播
         requestClassifyData();//获取八宫格数据
@@ -84,6 +93,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         requestNormalData();//正常数据
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
     /**
      * 已读和未读消息获取
      */
@@ -97,10 +107,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
                     @Override
                     public void onCompleted() {
-                        if ("0".equals(balanceMoneyBean.getCode())){
-                            if (balanceMoneyBean.getData().getNews()==0){//0是未读1是已读
+                        if ("0".equals(balanceMoneyBean.getCode())) {
+                            if (balanceMoneyBean.getData().getNews() == 0) {//0是未读1是已读
                                 img_title_right.setBackgroundResource(R.mipmap.img_have_info);
-                            }else {
+                            } else {
                                 img_title_right.setBackgroundResource(R.mipmap.img_no_info);
                             }
                         }
@@ -266,6 +276,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     private void initView(View view) {
         RelativeLayout ll_title = view.findViewById(R.id.ll_title);
         ll_title.setPadding(0, stateBar, 0, 0);
+//        View topView = view.findViewById(R.id.topView);
+//        initStatusBar(topView);
         rl_search = view.findViewById(R.id.rl_search);
         img_title_right = view.findViewById(R.id.img_title_right);
         ed_title_search = view.findViewById(R.id.ed_title_search);
@@ -334,6 +346,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             result = this.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+    protected void initStatusBar(View topView) {
+        topView.setLayoutParams(new LinearLayout.LayoutParams(DeviceUtils.getScreenWidthAndHeight(getActivity(), true), getStateBar()));
     }
 
     public void setUid(String uid) {

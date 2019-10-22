@@ -2,12 +2,16 @@ package com.ysxsoft.fragranceofhoney.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+
+import me.ele.uetool.UETool;
 
 
 /**
@@ -23,6 +27,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//        UETool.showUETMenu();
         mContext = getApplicationContext();
         sInstance = this;
         //初始化组件化基础库, 统计SDK/推送SDK/分享SDK都必须调用此初始化接口
@@ -62,7 +67,7 @@ public class BaseApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(base);
+        MultiDex.install(base);
     }
     {
 //        PlatformConfig.setWeixin("wxc523eebce9e041f3", "3baf1193c85774b3fd9d18447d76cab0");

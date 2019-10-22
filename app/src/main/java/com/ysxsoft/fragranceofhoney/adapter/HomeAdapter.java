@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
+import com.shehuan.niv.NiceImageView;
 import com.stx.xhb.pagemenulibrary.PageMenuLayout;
 import com.stx.xhb.pagemenulibrary.holder.AbstractHolder;
 import com.stx.xhb.pagemenulibrary.holder.PageMenuViewHolderCreator;
@@ -148,8 +150,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                                 public void onClick(View v) {
                                     if (IsLoginUtils.isloginFragment(context)) {
                                         ActivityPageManager instance = ActivityPageManager.getInstance();
-                                        instance.finishAllActivity();
+//                                        instance.finishAllActivity();
                                         context.startActivity(new Intent(context, LoginActivity.class));
+                                        instance.finishActivity(context);
                                     } else {
                                         HomeClassifyBean.DataBean dataBean = baDatas.get(pos);
                                         int id = dataBean.getId();
@@ -188,8 +191,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     public void onClick(int i) {
                         if (IsLoginUtils.isloginFragment(context)) {
                             ActivityPageManager instance = ActivityPageManager.getInstance();
-                            instance.finishAllActivity();
+//                            instance.finishAllActivity();
                             context.startActivity(new Intent(context, LoginActivity.class));
+                            instance.finishActivity(context);
                         } else {
                             Intent intent = new Intent(context, WebViewActivity.class);
                             String gid = String.valueOf(adapter.data.get(i).getGid());
@@ -210,8 +214,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 public void onClick(View v) {
                     if (IsLoginUtils.isloginFragment(context)) {
                         ActivityPageManager instance = ActivityPageManager.getInstance();
-                        instance.finishAllActivity();
+//                        instance.finishAllActivity();
                         context.startActivity(new Intent(context, LoginActivity.class));
+                        instance.finishActivity(context);
                     } else {
                         RecommendBean.DataBean dataBean = recommendDatas.get(i - 3);
                         String gid = String.valueOf(dataBean.getGid());
@@ -304,14 +309,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
      * 正常布局的ViewHolder
      */
     public static class NormalHolder extends RecyclerView.ViewHolder {
-        ImageView img_goods_tupian;
+        YLCircleImageView img_goods_tupian;
         TextView tv_goods_desc;
         TextView tv_price;
         TextView tv_pintuan_num;
 
         public NormalHolder(View itemView) {
             super(itemView);
-            img_goods_tupian = (ImageView) itemView.findViewById(R.id.img_goods_tupian);
+            img_goods_tupian = (YLCircleImageView) itemView.findViewById(R.id.img_goods_tupian);
             tv_goods_desc = (TextView) itemView.findViewById(R.id.tv_goods_desc);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
             tv_pintuan_num = (TextView) itemView.findViewById(R.id.tv_pintuan_num);

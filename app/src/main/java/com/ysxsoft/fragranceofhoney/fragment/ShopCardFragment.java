@@ -30,6 +30,8 @@ import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.adapter.ShopCardAdapter;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.DeleteShopCardBean;
+import com.ysxsoft.fragranceofhoney.modle.EditcarBean;
+import com.ysxsoft.fragranceofhoney.modle.SettlementBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBalanceBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
@@ -68,7 +70,8 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
     private StringBuffer sectionPrice = new StringBuffer();
     private StringBuffer sectionNum = new StringBuffer();
     private StringBuffer pids = new StringBuffer();
-    private String shopCardId,shopCardPriceId,shopCardNumId;
+    private String shopCardId, shopCardPriceId, shopCardNumId;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -184,13 +187,13 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
                     Toast.makeText(getActivity(), "所选商品不能为零", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (sectionDelete.length()!=0){
+                if (sectionDelete.length() != 0) {
                     sectionDelete.setLength(0);
                 }
-                if (sectionPrice.length()!=0){
+                if (sectionPrice.length() != 0) {
                     sectionPrice.setLength(0);
                 }
-                if (sectionNum.length()!=0){
+                if (sectionNum.length() != 0) {
                     sectionNum.setLength(0);
                 }
                 for (ShopCardBean.DataBean dataBean : mDataAdapter.getDataList()) {
@@ -212,10 +215,49 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
                         sectionDelete();
                     }
                 } else {
-                    BalanceData();
+//                    BalanceData();
+                    NewBalanceData();
                 }
                 break;
         }
+    }
+
+    private void NewBalanceData() {
+        NetWork.getService(ImpService.class)
+                .settlement(uid, shopCardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SettlementBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SettlementBean settlementBean) {
+                        if (settlementBean.getCode() == 0) {
+                            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                            if (pids.length() != 0) {
+                                pids.setLength(0);
+                            }
+                            for (int i = 0; i < settlementBean.getData().getList().size(); i++) {
+                                String pid = settlementBean.getData().getList().get(i).getGoods_id();
+                                pids.append(pid).append(",");
+                            }
+                            String pid = pids.deleteCharAt(pids.length() - 1).toString();
+//                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid="+pid;
+                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid=" + shopCardId;
+                            intent.putExtra("uid", uid);
+                            intent.putExtra("url", url);
+                            getActivity().startActivity(intent);
+                        }
+                    }
+                });
     }
 
     /**
@@ -223,7 +265,7 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
      */
     private void BalanceData() {
         NetWork.getService(ImpService.class)
-                .ShopCardBalanceData(shopCardId,uid,shopCardNumId,shopCardPriceId)
+                .ShopCardBalanceData(shopCardId, uid, shopCardNumId, shopCardPriceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ShopCardBalanceBean>() {
@@ -231,26 +273,26 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
 
                     @Override
                     public void onCompleted() {
-                        if ("0".equals(shopCardBalanceBean.getCode())){
-                            Intent intent=new Intent(getActivity(), WebViewActivity.class);
-                            if (pids.length()!=0){
+                        if ("0".equals(shopCardBalanceBean.getCode())) {
+                            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                            if (pids.length() != 0) {
                                 pids.setLength(0);
                             }
-                            for (int i = 0; i <  shopCardBalanceBean.getData().size(); i++) {
+                            for (int i = 0; i < shopCardBalanceBean.getData().size(); i++) {
                                 String pid = shopCardBalanceBean.getData().get(i).getId();
                                 pids.append(pid).append(",");
                             }
                             String pid = pids.deleteCharAt(pids.length() - 1).toString();
-                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid="+pid;
-                            intent.putExtra("uid",uid);
-                            intent.putExtra("url",url);
+                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid=" + pid;
+                            intent.putExtra("uid", uid);
+                            intent.putExtra("url", url);
                             getActivity().startActivity(intent);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -428,8 +470,9 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
         currentCount++;
         dataBean.setNumber(currentCount + "");
         ((TextView) showCountView).setText(currentCount + "");
-        notifyDataSetChanged();
-        statistics();
+        editcar(dataBean.getId(), currentCount + "");
+//        notifyDataSetChanged();
+//        statistics();
     }
 
     /**
@@ -449,26 +492,55 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
         currentCount--;
         dataBean.setNumber(currentCount + "");
         ((TextView) showCountView).setText(currentCount + "");
-        notifyDataSetChanged();
-        statistics();
+        editcar(dataBean.getId(), currentCount + "");
+//        notifyDataSetChanged();
+//        statistics();
+    }
+
+    private void editcar(int id, String s) {
+        NetWork.getService(ImpService.class)
+                .editcar(String.valueOf(id), s)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<EditcarBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(EditcarBean editcarBean) {
+                        if (editcarBean.getCode().equals("0")) {
+//                            Toast.makeText(getActivity(),editcarBean.getMsg(),Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+                            statistics();
+                        }
+                    }
+                });
     }
 
     @Override
     public void doEdittext(int position, final View text, boolean isChecked) {
         final ShopCardBean.DataBean dataBean = mDataAdapter.getDataList().get(position);
-        final TextNumDialog dialog=new TextNumDialog(getActivity());
+        final TextNumDialog dialog = new TextNumDialog(getActivity());
         final EditText ed_num = dialog.findViewById(R.id.ed_num);
         final TextView tv_check = dialog.findViewById(R.id.tv_check);
         tv_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("0".equals(ed_num.getText().toString().trim())||Integer.valueOf(ed_num.getText().toString().trim())<=0){
-                    Toast.makeText(getActivity(),"输入数量不能为零",Toast.LENGTH_SHORT).show();
-                }else {
+                if ("0".equals(ed_num.getText().toString().trim()) || Integer.valueOf(ed_num.getText().toString().trim()) <= 0) {
+                    Toast.makeText(getActivity(), "输入数量不能为零", Toast.LENGTH_SHORT).show();
+                } else {
                     dataBean.setNumber(ed_num.getText().toString().trim());
-                    ((TextView)text).setText(ed_num.getText().toString().trim());
-                    notifyDataSetChanged();
-                    statistics();
+                    ((TextView) text).setText(ed_num.getText().toString().trim());
+                    editcar(dataBean.getId(), ed_num.getText().toString().trim());
+//                    notifyDataSetChanged();
+//                    statistics();
                 }
                 dialog.dismiss();
             }
@@ -538,6 +610,8 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
                             }
                             mRecyclerView.refreshComplete(data.size());
                             notifyDataSetChanged();
+                        }else {
+                            ll_no_hava_data.setVisibility(View.VISIBLE);
                         }
                     }
 

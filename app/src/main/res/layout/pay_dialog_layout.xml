@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="350dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="bottom"
     android:background="@color/white"
     android:orientation="vertical">
@@ -53,6 +54,30 @@
             android:textColor="@color/btn_color"
             android:textSize="24sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="（运费:¥"
+            android:textSize="12sp"
+            android:textColor="@color/hint_text_color"/>
+
+         <TextView
+             android:id="@+id/tv_expressfee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="5.0"
+            android:textSize="12sp"
+            android:textColor="@color/hint_text_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" )"
+            android:textSize="12sp"
+            android:textColor="@color/hint_text_color"/>
+
+
+
     </LinearLayout>
 
     <TextView
@@ -63,6 +88,7 @@
         android:gravity="center"
         android:text="使用余额支付，折扣价7折"
         android:textColor="@color/hint_text_color"
+        android:visibility="gone"
         android:textSize="12sp" />
 
 

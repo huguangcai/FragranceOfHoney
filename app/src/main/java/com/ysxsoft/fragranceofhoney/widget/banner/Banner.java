@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.android.library.YLCircleImageView;
 import com.ysxsoft.fragranceofhoney.R;
 
 import java.lang.reflect.Field;
@@ -66,7 +67,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private BannerViewPager viewPager;
     private TextView bannerTitle, numIndicatorInside, numIndicator;
     private LinearLayout indicator, indicatorInside, titleView;
-    private ImageView bannerDefaultImage;
+    private YLCircleImageView bannerDefaultImage;
     private ImageLoaderInterface imageLoader;
     private BannerPagerAdapter adapter;
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
@@ -101,7 +102,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         imageViews.clear();
         handleTypedArray(context, attrs);
         View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
-        bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
+        bannerDefaultImage = (YLCircleImageView) view.findViewById(R.id.bannerDefaultImage);
         viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
         titleView = (LinearLayout) view.findViewById(R.id.titleView);
         indicator = (LinearLayout) view.findViewById(R.id.circleIndicator);
@@ -346,7 +347,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 imageView = imageLoader.createImageView(context);
             }
             if (imageView == null) {
-                imageView = new ImageView(context);
+                imageView = new YLCircleImageView(context,null);
             }
             setScaleType(imageView);
             Object url = null;

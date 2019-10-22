@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.com.ListBaseAdapter;
 import com.ysxsoft.fragranceofhoney.com.SuperViewHolder;
@@ -30,7 +31,7 @@ public class CollectAdapter extends ListBaseAdapter<CollectsListBean.DataBean> {
     public void onBindItemHolder(SuperViewHolder holder, final int position) {
         final CollectsListBean.DataBean dataBean = mDataList.get(position);
         CheckBox cb_box = holder.getView(R.id.cb_box);
-        ImageView img_tupian = holder.getView(R.id.img_tupian);
+        YLCircleImageView img_tupian = holder.getView(R.id.img_tupian);
         TextView tv_desc = holder.getView(R.id.tv_desc);
         TextView tv_money = holder.getView(R.id.tv_money);
         TextView tv_num = holder.getView(R.id.tv_num);

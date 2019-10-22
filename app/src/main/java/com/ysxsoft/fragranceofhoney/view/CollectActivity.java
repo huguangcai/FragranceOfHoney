@@ -194,7 +194,7 @@ public class CollectActivity extends BaseActivity implements View.OnClickListene
 
                     @Override
                     public void onCompleted() {
-                        showToastMessage(deleteCollectsBean.getMsg());
+//                        showToastMessage(deleteCollectsBean.getMsg());
                         if ("0".equals(deleteCollectsBean.getCode())) {
                             onRefresh();
                         }

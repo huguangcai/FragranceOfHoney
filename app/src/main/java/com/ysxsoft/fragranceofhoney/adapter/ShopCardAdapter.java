@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
+import com.shehuan.niv.NiceImageView;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.com.ListBaseAdapter;
 import com.ysxsoft.fragranceofhoney.com.SuperViewHolder;
@@ -49,7 +51,7 @@ public class ShopCardAdapter extends ListBaseAdapter<ShopCardBean.DataBean> {
     public void onBindItemHolder(SuperViewHolder holder, final int position) {
         final ShopCardBean.DataBean dataBean = mDataList.get(position);
         final CheckBox cb_box = holder.getView(R.id.cb_box);
-        ImageView img_goods_tupian = holder.getView(R.id.img_goods_tupian);
+        YLCircleImageView img_goods_tupian = holder.getView(R.id.img_goods_tupian);
         TextView tv_desc = holder.getView(R.id.tv_desc);
         TextView tv_color = holder.getView(R.id.tv_color);
         TextView tv_size = holder.getView(R.id.tv_size);

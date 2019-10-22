@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="horizontal">
 
@@ -15,12 +16,13 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <ImageView
+    <com.android.library.YLCircleImageView
         android:id="@+id/img_tupian"
         android:layout_width="80dp"
         android:layout_height="86dp"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
+        app:radius="5dp"
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -28,6 +30,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/white_shape_bg"
         android:orientation="vertical">
@@ -42,7 +45,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginBottom="10dp"
             android:gravity="bottom"
             android:orientation="horizontal">
@@ -68,7 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="已拼" />
+                android:textSize="12sp"
+                android:text="销量" />
 
             <TextView
                 android:id="@+id/tv_num"
@@ -76,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingRight="15dp"
+                android:textSize="12sp"
                 android:text="0000" />
 
         </LinearLayout>

@@ -8,12 +8,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ysxsoft.fragranceofhoney.MainActivity;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.BindingPhoneNumBean;
+import com.ysxsoft.fragranceofhoney.modle.LoginDataBean;
+import com.ysxsoft.fragranceofhoney.modle.SendMessageBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.CountDownTimeHelper;
@@ -30,6 +33,8 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
     private TextView tv_get_idenfy_code;
     private Button btn_submit;
     private String uid;
+    private String type, openidstr;
+    private LinearLayout ll_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +42,15 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
         setContentView(R.layout.binding_phone_layout);
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
+        type = intent.getStringExtra("type");
+        openidstr = intent.getStringExtra("openid");
         initView();
         initListener();
     }
 
     private void initView() {
         img_back = getViewById(R.id.img_back);
+        ll_pwd = getViewById(R.id.ll_pwd);
         TextView tv_title = getViewById(R.id.tv_title);
         tv_title.setText("绑定手机号");
         ed_phone = getViewById(R.id.ed_phone);
@@ -59,6 +67,8 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
         btn_submit.setOnClickListener(this);
     }
 
+    private SendMessageBean MessageBean;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -68,17 +78,54 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
             case R.id.tv_get_idenfy_code:
                 if (CheckPhoneNum()) return;
                 CountDownTimeHelper countDownTimeHelper = new CountDownTimeHelper(60, tv_get_idenfy_code);
-                String s = sendMessage(ed_phone.getText().toString().trim());
+//                String s = sendMessage(ed_phone.getText().toString().trim(), "3");
+                NetWork.getRetrofit()
+                        .create(ImpService.class)
+                        .sendMessage(ed_phone.getText().toString().trim(), "3")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<SendMessageBean>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                showToastMessage(e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(SendMessageBean sendMessageBean) {
+                                MessageBean = sendMessageBean;
+                                switch (MessageBean.getData().getPassword()) {
+                                    case 1:
+                                        ll_pwd.setVisibility(View.GONE);
+                                        break;
+                                    case 2:
+                                        ll_pwd.setVisibility(View.VISIBLE);
+                                        break;
+                                }
+                            }
+                        });
                 break;
             case R.id.btn_submit:
                 if (CheckPhoneNum()) return;
+
                 if (TextUtils.isEmpty(ed_idenfy_code.getText().toString().trim())) {
                     showToastMessage("验证码不能为空");
                     return;
                 }
-                if (TextUtils.isEmpty(ed_pwd.getText().toString().trim())) {
-                    showToastMessage("再次输入的新密码不能为空");
-                    return;
+                switch (MessageBean.getData().getPassword()) {
+                    case 1:
+                        ll_pwd.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        ll_pwd.setVisibility(View.VISIBLE);
+                        if (TextUtils.isEmpty(ed_pwd.getText().toString().trim())) {
+                            showToastMessage("密码不能为空");
+                            return;
+                        }
+                        break;
                 }
                 submitData();
                 break;
@@ -86,32 +133,18 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
     }
 
     private void submitData() {
-        NetWork.getRetrofit()
-                .create(ImpService.class)
-                .BindingPhoneNum(ed_phone.getText().toString().trim(),
-                        ed_idenfy_code.getText().toString().trim(),
+        NetWork.getService(ImpService.class)
+                .LoginPhoneNum(type,
+                        openidstr,
+                        ed_phone.getText().toString().trim(),
                         ed_pwd.getText().toString().trim(),
-                        uid,
-                        ed_invatation_code.getText().toString().trim())
+                        ed_idenfy_code.getText().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BindingPhoneNumBean>() {
-                    private BindingPhoneNumBean bindingPhoneNumBean;
-
+                .subscribe(new Observer<LoginDataBean>() {
                     @Override
                     public void onCompleted() {
-                        showToastMessage(bindingPhoneNumBean.getMsg());
-                        if ("0".equals(bindingPhoneNumBean.getCode())) {
-                            SharedPreferences.Editor save_pwd = getSharedPreferences("SAVE_PWD", Context.MODE_PRIVATE).edit();
-                            save_pwd.putString("Phone", ed_phone.getText().toString().trim());
-                            save_pwd.putString("pwd", ed_pwd.getText().toString().trim());
-                            save_pwd.commit();
-                            SharedPreferences.Editor spUid = getSharedPreferences("UID", Context.MODE_PRIVATE).edit();
-                            spUid.putString("uid", uid);
-                            spUid.commit();
-                            startActivity(MainActivity.class);
-                            finish();
-                        }
+
                     }
 
                     @Override
@@ -120,11 +153,62 @@ public class BindingPhoneNumActivity extends BaseActivity implements View.OnClic
                     }
 
                     @Override
-                    public void onNext(BindingPhoneNumBean bindingPhoneNumBean) {
-                        this.bindingPhoneNumBean = bindingPhoneNumBean;
+                    public void onNext(LoginDataBean loginDataBean) {
+                        showToastMessage(loginDataBean.getMsg());
+                        if (loginDataBean.getCode() == 0) {
+                            SharedPreferences.Editor save_pwd = getSharedPreferences("SAVE_PWD", Context.MODE_PRIVATE).edit();
+                            save_pwd.putString("Phone", ed_phone.getText().toString().trim());
+                            save_pwd.putString("pwd", ed_pwd.getText().toString().trim());
+                            save_pwd.commit();
+                            SharedPreferences.Editor spUid = getSharedPreferences("UID", Context.MODE_PRIVATE).edit();
+                            spUid.putString("uid", String.valueOf(loginDataBean.getData()));
+                            spUid.commit();
+                            startActivity(MainActivity.class);
+                            finish();
+                        }
                     }
                 });
 
+
+//        NetWork.getRetrofit()
+//                .create(ImpService.class)
+//                .BindingPhoneNum(ed_phone.getText().toString().trim(),
+//                        ed_idenfy_code.getText().toString().trim(),
+//                        ed_pwd.getText().toString().trim(),
+//                        uid,
+//                        ed_invatation_code.getText().toString().trim())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<BindingPhoneNumBean>() {
+//                    private BindingPhoneNumBean bindingPhoneNumBean;
+//
+//                    @Override
+//                    public void onCompleted() {
+//                        showToastMessage(bindingPhoneNumBean.getMsg());
+//                        if ("0".equals(bindingPhoneNumBean.getCode())) {
+//                            SharedPreferences.Editor save_pwd = getSharedPreferences("SAVE_PWD", Context.MODE_PRIVATE).edit();
+//                            save_pwd.putString("Phone", ed_phone.getText().toString().trim());
+//                            save_pwd.putString("pwd", ed_pwd.getText().toString().trim());
+//                            save_pwd.commit();
+//                            SharedPreferences.Editor spUid = getSharedPreferences("UID", Context.MODE_PRIVATE).edit();
+//                            spUid.putString("uid", uid);
+//                            spUid.commit();
+//                            startActivity(MainActivity.class);
+//                            finish();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        showToastMessage(e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(BindingPhoneNumBean bindingPhoneNumBean) {
+//                        this.bindingPhoneNumBean = bindingPhoneNumBean;
+//                    }
+//                });
+//
 
     }
 

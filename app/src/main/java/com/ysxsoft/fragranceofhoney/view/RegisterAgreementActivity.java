@@ -39,6 +39,7 @@ public class RegisterAgreementActivity extends BaseActivity {
         WebSettings webSettings = web_content.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true);
+        webSettings.setTextSize(WebSettings.TextSize.LARGEST);
         webSettings.setLoadWithOverviewMode(true);
         web_content.setWebViewClient(new MyWebViewClient());
     }

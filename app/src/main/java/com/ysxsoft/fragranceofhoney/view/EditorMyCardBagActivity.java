@@ -120,7 +120,7 @@ public class EditorMyCardBagActivity extends BaseActivity implements View.OnClic
                     return;
                 }
                 CountDownTimeHelper countDownTimeHelper = new CountDownTimeHelper(60, tv_get_idenfy_code);
-                sendMessage(ed_phone_num.getText().toString().trim());
+                sendMessage(ed_phone_num.getText().toString().trim(),"2");
                 break;
 
 //            case R.id.ll_select_open_bank:

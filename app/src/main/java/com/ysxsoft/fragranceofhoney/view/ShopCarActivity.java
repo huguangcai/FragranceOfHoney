@@ -24,6 +24,8 @@ import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.adapter.ShopCardAdapter;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.DeleteShopCardBean;
+import com.ysxsoft.fragranceofhoney.modle.EditcarBean;
+import com.ysxsoft.fragranceofhoney.modle.SettlementBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBalanceBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
@@ -193,12 +195,50 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
                         sectionDelete();
                     }
                 } else {
-                    BalanceData();
+//                    BalanceData();
+                    NewBalanceData();
                 }
                 break;
         }
     }
 
+    private void NewBalanceData() {
+        NetWork.getService(ImpService.class)
+                .settlement(uid,shopCardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SettlementBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SettlementBean settlementBean) {
+                        if (settlementBean.getCode()==0){
+                            Intent intent=new Intent(mContext, WebViewActivity.class);
+                            if (pids.length()!=0){
+                                pids.setLength(0);
+                            }
+                            for (int i = 0; i <  settlementBean.getData().getList().size(); i++) {
+                                String pid = settlementBean.getData().getList().get(i).getGoods_id();
+                                pids.append(pid).append(",");
+                            }
+                            String pid = pids.deleteCharAt(pids.length() - 1).toString();
+//                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid="+pid;
+                            String url = NetWork.H5BaseUrl + "confirmOrder?sc=2&pid="+shopCardId;
+                            intent.putExtra("uid",uid);
+                            intent.putExtra("url",url);
+                            startActivity(intent);
+                        }
+                    }
+                });
+    }
     /**
      * 结算
      */
@@ -409,8 +449,9 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
         currentCount++;
         dataBean.setNumber(currentCount + "");
         ((TextView) showCountView).setText(currentCount + "");
-        notifyDataSetChanged();
-        statistics();
+        editcar(dataBean.getId(),currentCount + "");
+//        notifyDataSetChanged();
+//        statistics();
     }
 
     /**
@@ -430,8 +471,9 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
         currentCount--;
         dataBean.setNumber(currentCount + "");
         ((TextView) showCountView).setText(currentCount + "");
-        notifyDataSetChanged();
-        statistics();
+        editcar(dataBean.getId(),currentCount + "");
+//        notifyDataSetChanged();
+//        statistics();
     }
 
     @Override
@@ -448,14 +490,42 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
                 } else {
                     dataBean.setNumber(ed_num.getText().toString().trim());
                     ((TextView) text).setText(ed_num.getText().toString().trim());
-                    notifyDataSetChanged();
-                    statistics();
+                    editcar(dataBean.getId(),ed_num.getText().toString().trim());
+//                    notifyDataSetChanged();
+//                    statistics();
                 }
                 dialog.dismiss();
             }
         });
         dialog.show();
 
+    }
+
+    private void editcar(int id, String s) {
+        NetWork.getService(ImpService.class)
+                .editcar(String.valueOf(id),s)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<EditcarBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(EditcarBean editcarBean) {
+                        if (editcarBean.getCode().equals("0")){
+//                            Toast.makeText(getActivity(),editcarBean.getMsg(),Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+                            statistics();
+                        }
+                    }
+                });
     }
 
     private class PreviewHandler extends Handler {
@@ -530,6 +600,8 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
                             }
                             mRecyclerView.refreshComplete(data.size());
                             notifyDataSetChanged();
+                        }else {
+                            ll_no_hava_data.setVisibility(View.VISIBLE);
                         }
                     }
 

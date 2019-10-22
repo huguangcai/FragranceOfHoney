@@ -7,20 +7,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.ysxsoft.fragranceofhoney.fragment.ClassifyFragment;
 import com.ysxsoft.fragranceofhoney.fragment.HomeFragment;
@@ -28,18 +40,27 @@ import com.ysxsoft.fragranceofhoney.fragment.MyFragment;
 import com.ysxsoft.fragranceofhoney.fragment.ShopCardFragment;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.LoginBean;
+import com.ysxsoft.fragranceofhoney.modle.VersionBean;
 import com.ysxsoft.fragranceofhoney.utils.ActivityPageManager;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.IsLoginUtils;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 import com.ysxsoft.fragranceofhoney.utils.StatusBarUtil;
+import com.ysxsoft.fragranceofhoney.utils.VersionUtils;
 import com.ysxsoft.fragranceofhoney.view.LoginActivity;
 import com.ysxsoft.fragranceofhoney.widget.MyViewPager;
+import com.ysxsoft.fragranceofhoney.widget.UpdateDialog;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import io.reactivex.functions.Consumer;
+import me.ele.uetool.UETool;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -59,6 +80,8 @@ public class MainActivity extends BaseActivity {
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private String flag;
     private RxPermissions rxPermissions;
+    private UpdateDialog dialog;
+    private ProgressBar proBar;
 
     @SuppressLint("CheckResult")
     @Override
@@ -67,9 +90,13 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         SharedPreferences spUid = getSharedPreferences("UID", Context.MODE_PRIVATE);
         uid = spUid.getString("uid", "");
-        setHalfTransparent();
         setFitSystemWindow(false);
-        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+//        StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+        setStatusBarFullTransparent();
+        ImmersionBar.with(this)
+                .statusBarDarkFont(true)
+                .init();
+
         Intent intent = getIntent();
         flag = intent.getStringExtra("flag");
         uid = intent.getStringExtra("uid");
@@ -95,7 +122,185 @@ public class MainActivity extends BaseActivity {
         initView();
 //        requestData();
         initData();
+        UpdateVersion();
     }
+
+    private void UpdateVersion() {
+        NetWork.getService(ImpService.class)
+                .version("1")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<VersionBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(final VersionBean versionBean) {
+                        if (versionBean.getCode() == 0) {
+                            String versionName = AppUtil.getVersionName(mContext);
+//                            String substring = versionBean.getData().getVersion().substring(1, versionBean.getData().getVersion().length());
+                            int i = VersionUtils.compareVersion(versionName, versionBean.getData().getVersion());
+                            // 0代表相等，1代表version1大于version2，-1代表version1小于version2
+                            if (i == -1) {
+                                dialog = new UpdateDialog(mContext);
+                                TextView tv_update = dialog.findViewById(R.id.tv_update);
+                                proBar = dialog.findViewById(R.id.proBar);
+                                tv_update.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        proBar.setVisibility(View.VISIBLE);
+                                        if (TextUtils.isEmpty(versionBean.getData().getLink())) {
+                                            dialog.dismiss();
+                                            return;
+                                        }
+                                        downloadAPK(versionBean.getData().getLink());
+                                    }
+                                });
+                                dialog.show();
+                            }
+                        }
+                    }
+                });
+    }
+
+    //  进度
+    private int mProgress;
+    //  文件保存路径
+    private String mSavePath;
+    //  判断是否停止
+    private boolean mIsCancel = false;
+
+    /**
+     * 下载APk
+     *
+     * @param apk_file_url
+     */
+    private void downloadAPK(final String apk_file_url) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        String sdPath = Environment.getExternalStorageDirectory() + "/";
+//                      文件保存路径
+                        mSavePath = sdPath + "Fragrance";
+                        File dir = new File(mSavePath);
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        // 下载文件
+                        HttpURLConnection conn = (HttpURLConnection) new URL(apk_file_url).openConnection();
+                        conn.connect();
+                        InputStream is = conn.getInputStream();
+                        int length = conn.getContentLength();
+
+                        File apkFile = new File(mSavePath, AppUtil.getVersionName(mContext));
+                        FileOutputStream fos = new FileOutputStream(apkFile);
+
+                        int count = 0;
+                        byte[] buffer = new byte[1024];
+                        while (!mIsCancel) {
+                            int numread = is.read(buffer);
+                            count += numread;
+                            // 计算进度条的当前位置
+                            mProgress = (int) (((float) count / length) * 100);
+                            // 更新进度条
+                            mUpdateProgressHandler.sendEmptyMessage(1);
+
+                            // 下载完成
+                            if (numread < 0) {
+                                mUpdateProgressHandler.sendEmptyMessage(2);
+                                break;
+                            }
+                            fos.write(buffer, 0, numread);
+                        }
+                        fos.close();
+                        is.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    /**
+     * 接收消息
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler mUpdateProgressHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    // 设置进度条
+                    proBar.setProgress(mProgress);
+                    break;
+                case 2:
+                    // 隐藏当前下载对话框
+                    dialog.dismiss();
+                    // 安装 APK 文件
+                    installAPK();
+            }
+        }
+
+        ;
+    };
+
+    /**
+     * 安装Apk
+     */
+    private void installAPK() {
+        File apkFile = new File(mSavePath, AppUtil.getVersionName(mContext));
+        if (!apkFile.exists()) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+//      安装完成后，启动app（源码中少了这句话）
+
+        if (null != apkFile) {
+            try {
+                //兼容7.0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Uri contentUri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".fileProvider", apkFile);
+                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+                    //兼容8.0
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        boolean hasInstallPermission = mContext.getPackageManager().canRequestPackageInstalls();
+                        if (!hasInstallPermission) {
+                            startInstallPermissionSettingActivity();
+                            return;
+                        }
+                    }
+                } else {
+                    intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                if (mContext.getPackageManager().queryIntentActivities(intent, 0).size() > 0) {
+                    mContext.startActivity(intent);
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void startInstallPermissionSettingActivity() {
+        //注意这个是8.0新API
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
+
 
     private void requestData() {
         SharedPreferences sp = getSharedPreferences("SAVE_PWD", Context.MODE_PRIVATE);
@@ -180,8 +385,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.rb_shop_card:
                         if (IsLoginUtils.isloginFragment(mContext)) {
                             ActivityPageManager instance = ActivityPageManager.getInstance();
-                            instance.finishAllActivity();
+//                            instance.finishAllActivity();
                             startActivity(LoginActivity.class);
+                            instance.finishActivity(MainActivity.this);
                         } else {
                             vp_content.setCurrentItem(2);
 //                            shopCardFragment.setUid(uid);
@@ -191,8 +397,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.rb_my:
                         if (IsLoginUtils.isloginFragment(mContext)) {
                             ActivityPageManager instance = ActivityPageManager.getInstance();
-                            instance.finishAllActivity();
+//                            instance.finishAllActivity();
                             startActivity(LoginActivity.class);
+                            instance.finishActivity(MainActivity.this);
                         } else {
 //                            switchFragment(myFragment).commit();
                             vp_content.setCurrentItem(3);
@@ -239,10 +446,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private boolean isBack = false;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isBack) {
+                UETool.dismissUETMenu();
                 finish();
             } else {
                 showToastMessage("再按一次退出");

@@ -19,6 +19,7 @@ import com.ysxsoft.fragranceofhoney.modle.DeleteCardBean;
 import com.ysxsoft.fragranceofhoney.modle.DeleteHistoryBean;
 import com.ysxsoft.fragranceofhoney.modle.DeleteShopCardBean;
 import com.ysxsoft.fragranceofhoney.modle.DeleteCollectsBean;
+import com.ysxsoft.fragranceofhoney.modle.EditcarBean;
 import com.ysxsoft.fragranceofhoney.modle.EditorAddressBean;
 import com.ysxsoft.fragranceofhoney.modle.ForgetModifyPwdBean;
 import com.ysxsoft.fragranceofhoney.modle.GetGoodsAddressBean;
@@ -29,6 +30,7 @@ import com.ysxsoft.fragranceofhoney.modle.HotGoodsBean;
 import com.ysxsoft.fragranceofhoney.modle.IsTrueAddressBean;
 import com.ysxsoft.fragranceofhoney.modle.LauncherImgBean;
 import com.ysxsoft.fragranceofhoney.modle.LoginBean;
+import com.ysxsoft.fragranceofhoney.modle.LoginDataBean;
 import com.ysxsoft.fragranceofhoney.modle.LookedMessageBean;
 import com.ysxsoft.fragranceofhoney.modle.MessageListBean;
 import com.ysxsoft.fragranceofhoney.modle.ModifyCardBean;
@@ -36,7 +38,9 @@ import com.ysxsoft.fragranceofhoney.modle.ModifySexBean;
 import com.ysxsoft.fragranceofhoney.modle.ModifyTradePwdBean;
 import com.ysxsoft.fragranceofhoney.modle.ModifyUserNameBean;
 import com.ysxsoft.fragranceofhoney.modle.MyMsgBean;
+import com.ysxsoft.fragranceofhoney.modle.OrderNumberBean;
 import com.ysxsoft.fragranceofhoney.modle.PayBalanceBean;
+import com.ysxsoft.fragranceofhoney.modle.PayBean;
 import com.ysxsoft.fragranceofhoney.modle.QQLoginBean;
 import com.ysxsoft.fragranceofhoney.modle.QQNumberBean;
 import com.ysxsoft.fragranceofhoney.modle.RecommendBean;
@@ -46,15 +50,19 @@ import com.ysxsoft.fragranceofhoney.modle.SearchRecommendBean;
 import com.ysxsoft.fragranceofhoney.modle.SecondHomeBean;
 import com.ysxsoft.fragranceofhoney.modle.SendMessageBean;
 import com.ysxsoft.fragranceofhoney.modle.SesarchBean;
+import com.ysxsoft.fragranceofhoney.modle.SettlementBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBalanceBean;
 import com.ysxsoft.fragranceofhoney.modle.ShopCardBean;
 import com.ysxsoft.fragranceofhoney.modle.SystemDetialBean;
 import com.ysxsoft.fragranceofhoney.modle.UploadHeadImgBean;
+import com.ysxsoft.fragranceofhoney.modle.VersionBean;
 import com.ysxsoft.fragranceofhoney.modle.WalletDetailBean;
 import com.ysxsoft.fragranceofhoney.modle.WithdrawBean;
 import com.ysxsoft.fragranceofhoney.modle.WxPayBean;
 
 import okhttp3.MultipartBody;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -66,7 +74,8 @@ public interface ImpService {
      * 发送短信验证码
      */
     @POST("index/getcode")
-    Observable<SendMessageBean> sendMessage(@Query("phone") String phone);
+    Observable<SendMessageBean> sendMessage(@Query("phone") String phone,
+                                            @Query("type") String type);
 
     /**
      * 登录
@@ -81,9 +90,9 @@ public interface ImpService {
     /**
      * 注册
      *
-     * @param mobile     手机号
-     * @param password   密码
-     * @param code       验证码
+     * @param mobile   手机号
+     * @param password 密码
+     * @param code     验证码
      */
     @POST("index/registers")
     Observable<RegisterBean> Register(@Query("mobile") String mobile,
@@ -104,6 +113,15 @@ public interface ImpService {
                                                     @Query("password") String password,
                                                     @Query("uid") String uid,
                                                     @Query("invicode") String invicode);
+
+    //新绑定手机号码
+    @POST("login/phone")
+    Observable<LoginDataBean> LoginPhoneNum(@Query("type") String type,
+                                            @Query("openid") String openid,
+                                            @Query("mobile") String mobile,
+                                            @Query("password") String password,
+                                            @Query("code") String code);
+
 
     //我的
     @POST("index/getMe")
@@ -293,12 +311,18 @@ public interface ImpService {
                                                         @Query("uid") String uid,
                                                         @Query("num") String num,
                                                         @Query("price") String price);
+//    //  余额支付
+//
+//    @POST("index/balance")
+//    Observable<PayBalanceBean> PayBalanceData(@Query("uid") String uid,
+//                                              @Query("pid") String pid,
+//                                              @Query("tradepassword") String tradepassword);
     //  余额支付
 
     @POST("index/balance")
-    Observable<PayBalanceBean> PayBalanceData(@Query("uid") String uid,
-                                              @Query("pid") String pid,
-                                              @Query("tradepassword") String tradepassword);
+    Observable<PayBean> PayBalanceData(@Query("uid") String uid,
+                                       @Query("pid") String pid,
+                                       @Query("tradepassword") String tradepassword);
 
     //  余额
     @POST("index/moneys")
@@ -343,10 +367,15 @@ public interface ImpService {
                                         @Query("avatar") String avatar,
                                         @Query("sex") String sex);
 
+    //QQ第三方登录
+    @POST("login/login")
+    Observable<LoginDataBean> LoginData(@Query("openid") String openid,
+                                        @Query("type") String type);
+
     //消息列表
     @POST("index/message")
     Observable<MessageListBean> MessageListData(@Query("uid") String uid,
-                                                @Query("page")String page);
+                                                @Query("page") String page);
 
     //消息已读
     @POST("index/sysMsgDea")
@@ -375,11 +404,32 @@ public interface ImpService {
     @POST("index/brands")
     Observable<SecondHomeBean> getSecondHomeData(@Query("page") String page,
                                                  @Query("cid") String cid);
+
     //微信充值
     @POST("index/wxpays")
     Observable<WxPayBean> WxPaysData(@Query("uid") String uid,
-                                    @Query("num") String num);
+                                     @Query("num") String num);
+
     //官方QQ
     @POST("index/qqNumber")
     Observable<QQNumberBean> QQNumberData();
+
+    //购物车结算信息
+    @POST("order/settlement")
+    Observable<SettlementBean> settlement(@Query("uid") String uid,
+                                          @Query("car_id") String car_id);
+
+    //个人中心--订单数量
+    @POST("order/order_number")
+    Observable<OrderNumberBean> order_number(@Query("uid") String uid);
+
+    //app版本更新
+    @POST("index/version")
+    Observable<VersionBean> version(@Query("type") String type);
+
+    //修改购物车数量
+    @POST("index/editcar")
+    Observable<EditcarBean> editcar(@Query("pid") String pid,
+                                    @Query("number") String number);
+
 }

@@ -1,8 +1,10 @@
 package com.ysxsoft.fragranceofhoney.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.SendMessageBean;
 import com.ysxsoft.fragranceofhoney.view.LoginActivity;
@@ -21,6 +25,8 @@ import com.ysxsoft.fragranceofhoney.view.LoginActivity;
 import rx.Observer;
 import rx.schedulers.Schedulers;
 import rx.android.schedulers.AndroidSchedulers;
+
+import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 
 /**
  * 描述： activity基类
@@ -158,10 +164,10 @@ public class BaseActivity extends AppCompatActivity {
      * @param phone
      * @return
      */
-    protected String sendMessage(String phone) {
+    protected String sendMessage(String phone, String type) {
         NetWork.getRetrofit()
                 .create(ImpService.class)
-                .sendMessage(phone)
+                .sendMessage(phone, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<SendMessageBean>() {
@@ -184,7 +190,33 @@ public class BaseActivity extends AppCompatActivity {
                 });
         return data;
     }
-//    @Override
+
+    protected void setLightStatusBar(Boolean dark) {
+        // 5.0 以上
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View decorView = getWindow().getDecorView();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //			activity.getWindow().addFlags(SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//SYSTEM_UI_FLAG_LIGHT_STATUS_BAR深色字体   释放会导致无法截屏
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//SYSTEM_UI_FLAG_LIGHT_STATUS_BAR深色字体
+        }
+        if (dark) {
+            int originFlag = getWindow().getDecorView().getSystemUiVisibility();
+            getWindow().getDecorView().setSystemUiVisibility(originFlag | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//黑色
+        } else {
+            int originFlag = getWindow().getDecorView().getSystemUiVisibility();
+            getWindow().getDecorView().setSystemUiVisibility(originFlag | View.SYSTEM_UI_FLAG_VISIBLE);//白色
+        }
+    }
+
+    protected void initStatusBar(View topView) {
+        topView.setLayoutParams(new LinearLayout.LayoutParams(DeviceUtils.getScreenWidthAndHeight(mContext, true), getStateBar()));
+    }
+
+
+    //    @Override
 //    protected void onResume() {
 //        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

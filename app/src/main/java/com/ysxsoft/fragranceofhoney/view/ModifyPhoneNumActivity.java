@@ -64,7 +64,7 @@ public class ModifyPhoneNumActivity extends BaseActivity implements View.OnClick
             case R.id.tv_get_idenfy_code:
                 if (checkData()) return;
                 CountDownTimeHelper countDownTimeHelper = new CountDownTimeHelper(60, tv_get_idenfy_code);
-                String s = sendMessage(ed_phone.getText().toString().trim());
+                String s = sendMessage(ed_phone.getText().toString().trim(),"2");
                 break;
             case R.id.btn_submit:
                 if (checkData()) return;

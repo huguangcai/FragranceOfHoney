@@ -14,5 +14,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="btn_color">#FF5B97</color>
     <color name="flow_item_color">#E6E6E6</color>
+    <color name="colorff666666">#ff666666</color>
 
 </resources>

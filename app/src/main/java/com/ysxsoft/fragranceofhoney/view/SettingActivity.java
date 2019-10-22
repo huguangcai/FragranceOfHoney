@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.CustomerPhoneNumBean;
+import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 import com.ysxsoft.fragranceofhoney.widget.CustomerPhoneDialog;
@@ -27,6 +28,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout ll_account_security, ll_about_platform, ll_customer_phone, ll_version_updata, ll_help_center, ll_login_out;
     private String uid;
     private String phone;
+    private TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +73,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         img_back = getViewById(R.id.img_back);
         TextView tv_title = getViewById(R.id.tv_title);
         tv_title.setText("设置");
+        tv_version = getViewById(R.id.tv_version);
         ll_account_security = getViewById(R.id.ll_account_security);
         ll_about_platform = getViewById(R.id.ll_about_platform);
         ll_customer_phone = getViewById(R.id.ll_customer_phone);
         ll_version_updata = getViewById(R.id.ll_version_updata);
         ll_help_center = getViewById(R.id.ll_help_center);
         ll_login_out = getViewById(R.id.ll_login_out);
+        tv_version.setText("版本"+AppUtil.getVersionName(mContext));
 
     }
 

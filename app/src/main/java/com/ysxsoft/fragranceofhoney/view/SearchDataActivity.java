@@ -412,7 +412,7 @@ public class SearchDataActivity extends BaseActivity implements View.OnClickList
             return;
         }
         mDataAdapter.clear();
-        customDialog.show();
+//        customDialog.show();
         goods_name = ed_title_search.getText().toString().trim();
         NetWork.getRetrofit()
                 .create(ImpService.class)
@@ -424,7 +424,7 @@ public class SearchDataActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onCompleted() {
-                        customDialog.dismiss();
+//                        customDialog.dismiss();
                         showToastMessage(sesarchBean.getMsg());
                         if ("0".equals(sesarchBean.getCode())) {
                             int size = sesarchBean.getData().size();
@@ -529,7 +529,7 @@ public class SearchDataActivity extends BaseActivity implements View.OnClickList
      * 根据bid获取数据
      */
     private void getBidData() {
-        customDialog.show();
+//        customDialog.show();
         NetWork.getRetrofit().create(ImpService.class)
                 .BidSearchData(bid, String.valueOf(page),String.valueOf(type))
                 .subscribeOn(Schedulers.io())
@@ -539,7 +539,7 @@ public class SearchDataActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onCompleted() {
-                        customDialog.dismiss();
+//                        customDialog.dismiss();
                         if ("0".equals(sesarchBean.getCode())) {
                             int size = sesarchBean.getData().size();
                             if (size <= 0) {

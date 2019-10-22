@@ -15,7 +15,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/add_minus_bg_shape"
+        android:background="@drawable/add1_minus_bg_shape"
         android:gravity="center"
         android:hint="请输入数量"
         android:digits="0123456789"

@@ -56,6 +56,7 @@ import com.ysxsoft.fragranceofhoney.modle.AcountSafeBean;
 import com.ysxsoft.fragranceofhoney.modle.AliPayBean;
 import com.ysxsoft.fragranceofhoney.modle.BalanceMoneyBean;
 import com.ysxsoft.fragranceofhoney.modle.PayBalanceBean;
+import com.ysxsoft.fragranceofhoney.modle.PayBean;
 import com.ysxsoft.fragranceofhoney.modle.WxPayBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
@@ -392,16 +393,19 @@ public class WebViewActivity extends BaseActivity {
             Stringtype = type;//type 1 拼团 2 订单详情   http://192.168.1.101:8080/#/spellTeam?cid=订单id   拼团链接
             final PayDialogBottom dialog = new PayDialogBottom(mContext);
             final TextView tv_pay_money = dialog.findViewById(R.id.tv_pay_money);
-//            tv_pay_money.setText(sumMoney);
+            final TextView tv_expressfee = dialog.findViewById(R.id.tv_expressfee);//快递费
             BigDecimal expressMoney = new BigDecimal(String.valueOf(expressfee));//快递费
-            BigDecimal a1 = new BigDecimal("0.1");
-            BigDecimal a2 = new BigDecimal(data.getRatio());//折扣
-            BigDecimal multiply = a1.multiply(a2);//折扣率
+//            BigDecimal a1 = new BigDecimal("0.1");
+//            BigDecimal a2 = new BigDecimal(data.getRatio());//折扣
+//            BigDecimal multiply = a1.multiply(a2);//折扣率
             BigDecimal b2 = new BigDecimal(sumMoney);//总金额
-            BigDecimal subtract = b2.subtract(expressMoney);//总金额 - 快递费
-            final BigDecimal money = subtract.multiply(multiply);//折扣后金额
-            final BigDecimal add = money.add(expressMoney);
-            tv_pay_money.setText(String.valueOf(Double.valueOf(String.valueOf(add))));
+//            BigDecimal subtract = b2.subtract(expressMoney);//总金额 - 快递费
+//            final BigDecimal money = subtract.multiply(multiply);//折扣后金额
+//            final BigDecimal add = money.add(expressMoney);
+            final BigDecimal bigDecimal = expressMoney.add(b2);
+            tv_expressfee.setText(String.valueOf(expressfee));
+//            tv_pay_money.setText(String.valueOf(bigDecimal));
+            tv_pay_money.setText(sumMoney);
             TextView tv_agio = dialog.findViewById(R.id.tv_agio);
             tv_agio.setText("使用余额支付，折扣价" + data.getRatio() + "折");
             TextView tv_balance_money = dialog.findViewById(R.id.tv_balance_money);
@@ -427,7 +431,8 @@ public class WebViewActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     PAY_TYPE = 1;
-                    tv_pay_money.setText(String.valueOf(add));
+//                    tv_pay_money.setText(String.valueOf(bigDecimal));
+//                    tv_pay_money.setText(sumMoney);
                     img_balance.setVisibility(View.VISIBLE);
                     img_alipay.setVisibility(View.GONE);
                     img_wechatpay.setVisibility(View.GONE);
@@ -437,7 +442,8 @@ public class WebViewActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     PAY_TYPE = 2;
-                    tv_pay_money.setText(sumMoney);
+//                    tv_pay_money.setText(String.valueOf(bigDecimal));
+//                    tv_pay_money.setText(sumMoney);
                     img_balance.setVisibility(View.GONE);
                     img_alipay.setVisibility(View.VISIBLE);
                     img_wechatpay.setVisibility(View.GONE);
@@ -447,7 +453,8 @@ public class WebViewActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     PAY_TYPE = 3;
-                    tv_pay_money.setText(sumMoney);
+//                    tv_pay_money.setText(String.valueOf(bigDecimal));
+//                    tv_pay_money.setText(sumMoney);
                     img_balance.setVisibility(View.GONE);
                     img_alipay.setVisibility(View.GONE);
                     img_wechatpay.setVisibility(View.VISIBLE);
@@ -744,16 +751,16 @@ public class WebViewActivity extends BaseActivity {
                 .PayBalanceData(uid, orderInfo, str)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PayBalanceBean>() {
-                    private PayBalanceBean payBalanceBean;
+                .subscribe(new Observer<PayBean>() {
+                    private PayBean payBalanceBean;
 
                     @Override
                     public void onCompleted() {
                         showToastMessage(payBalanceBean.getMsg());
                         AppUtil.colsePhoneKeyboard(WebViewActivity.this);
-                        if ("0".equals(payBalanceBean.getCode())) {
+                        if (payBalanceBean.getCode()==0) {
                             sucessfulJump();
-                        } else if ("3".equals(payBalanceBean.getCode())) {
+                        } else if (payBalanceBean.getCode()==3) {
 
                         } else {
                             failJumpWaitPay();
@@ -766,7 +773,7 @@ public class WebViewActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(PayBalanceBean payBalanceBean) {
+                    public void onNext(PayBean payBalanceBean) {
 
                         this.payBalanceBean = payBalanceBean;
                     }

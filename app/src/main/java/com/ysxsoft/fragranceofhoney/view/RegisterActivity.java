@@ -64,7 +64,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if (checkPhoneNum()) return;
                 CountDownTimeHelper timeHelper = new CountDownTimeHelper(60, tv_get_idenfy_code);
                 //TODO 发送短信
-                String code = sendMessage(ed_phone.getText().toString().trim());
+                String code = sendMessage(ed_phone.getText().toString().trim(),"1");
                 break;
             case R.id.cb_box:
 

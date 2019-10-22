@@ -7,14 +7,16 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:background="@color/white">
 
         <com.ysxsoft.fragranceofhoney.widget.banner.Banner
             android:id="@+id/vp_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:indicator_drawable_selected="@color/btn_color"
-            app:indicator_drawable_unselected="@color/gray" />
+            android:layout_margin="10dp"
+            app:indicator_drawable_selected="@drawable/theme_circle_shape"
+            app:indicator_drawable_unselected="@drawable/black_circle_shape" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_content"

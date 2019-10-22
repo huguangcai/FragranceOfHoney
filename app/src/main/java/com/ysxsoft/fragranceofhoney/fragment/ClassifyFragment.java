@@ -168,7 +168,7 @@ public class ClassifyFragment extends Fragment implements View.OnClickListener {
         ed_title_search.setFocusable(false);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         rv_title.setLayoutManager(manager);
-        rv_title.addItemDecoration(new DividerItemDecoration(getActivity(), OrientationHelper.VERTICAL));
+//        rv_title.addItemDecoration(new DividerItemDecoration(getActivity(), OrientationHelper.VERTICAL));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         rv_content.setLayoutManager(gridLayoutManager);

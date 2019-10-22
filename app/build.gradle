@@ -7,8 +7,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.1"
-//        multiDexEnabled true
+        versionName "1.0.4"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
@@ -90,4 +90,21 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     implementation 'com.github.xiaohaibin:PageMenuLayout:0.2.0'
     //将latestVersion替换成上面 jitpack 后面的版本号
+    implementation 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
+    annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.SheHuan:NiceImageView:1.0.5'
+
+    debugImplementation 'me.ele:uetool:1.2.3'
+    releaseImplementation 'me.ele:uetool-no-op:1.2.3'
+
+    // if you want to show more attrs about Fresco's DraweeView
+    debugImplementation 'me.ele:uetool-fresco:1.2.3'
+
+    implementation 'com.github.ai2101039:YLCircleImageView:v1.0.6'
+
+    // 基础依赖包，必须要依赖
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+// fragment快速实现（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
 }

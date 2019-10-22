@@ -70,7 +70,7 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
             case R.id.tv_get_identify_code:
                 CountDownTimeHelper timeHelper=new CountDownTimeHelper(60,tv_get_identify_code);
                 if (!TextUtils.isEmpty(mobile)){
-                 sendMessage(mobile);
+                 sendMessage(mobile,"2");
                 }else {
                     showToastMessage("获取错误");
                 }

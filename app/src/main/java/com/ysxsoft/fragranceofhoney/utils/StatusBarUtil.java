@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gyf.immersionbar.ImmersionBar;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -56,7 +58,7 @@ public class StatusBarUtil {
                 result = 3;
             } else {
                 //其他的都设置状态栏成半透明的,以下设置半透明是调用第三方的，根据个人需求更改
-//    ImmersionBar.with(activity).statusBarDarkFont(true, 0.5f).init();
+//                ImmersionBar.with(activity).statusBarDarkFont(true).init();
             }
         }
         return result;
@@ -67,7 +69,7 @@ public class StatusBarUtil {
      * 可以用来判断是否为Flyme用户
      *
      * @param window 需要设置的窗口
-     * @param dark 是否把状态栏文字及图标颜色设置为深色
+     * @param dark   是否把状态栏文字及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean dark) {
@@ -102,7 +104,7 @@ public class StatusBarUtil {
      * 需要MIUIV6以上
      *
      * @param activity
-     * @param dark  是否把状态栏文字及图标颜色设置为深色
+     * @param dark     是否把状态栏文字及图标颜色设置为深色
      * @return boolean 成功执行返回true
      */
     public static boolean MIUISetStatusBarLightMode(Activity activity, boolean dark) {

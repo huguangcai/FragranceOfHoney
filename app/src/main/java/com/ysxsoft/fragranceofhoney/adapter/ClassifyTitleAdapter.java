@@ -35,11 +35,13 @@ public class ClassifyTitleAdapter extends RecyclerView.Adapter<ClassifyTitleAdap
     public void onBindViewHolder(@NonNull ClassifyTitleAdapter.TitleViewHordle titleViewHordle, final int i) {
         titleViewHordle.tv_title_classify.setText(list.get(i));
         if (posotion==i){
+            titleViewHordle.view_line.setVisibility(View.VISIBLE);
             titleViewHordle.tv_title_classify.setBackgroundResource(R.color.white);
             titleViewHordle.tv_title_classify.setTextColor(activity.getResources().getColor(R.color.btn_color));
         }else {
+            titleViewHordle.view_line.setVisibility(View.GONE);
             titleViewHordle.tv_title_classify.setBackgroundResource(R.color.gray);
-            titleViewHordle.tv_title_classify.setTextColor(activity.getResources().getColor(R.color.black));
+            titleViewHordle.tv_title_classify.setTextColor(activity.getResources().getColor(R.color.colorff666666));
         }
         titleViewHordle.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,10 +65,12 @@ public class ClassifyTitleAdapter extends RecyclerView.Adapter<ClassifyTitleAdap
     public class TitleViewHordle extends RecyclerView.ViewHolder{
 
         private final TextView tv_title_classify;
+        private final View view_line;
 
         public TitleViewHordle(@NonNull View itemView) {
             super(itemView);
             tv_title_classify = itemView.findViewById(R.id.tv_title_classify);
+            view_line = itemView.findViewById(R.id.view_line);
         }
     }
     public interface OnItemClickListener{

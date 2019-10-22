@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
+import com.shehuan.niv.NiceImageView;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.modle.HotGoodsBean;
 import com.ysxsoft.fragranceofhoney.utils.ImageLoadUtil;
@@ -56,7 +58,7 @@ public class HotGoddsAdapter extends RecyclerView.Adapter<HotGoddsAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private final ImageView img_goods_tupian;
+        private final YLCircleImageView img_goods_tupian;
         private final TextView tv_goods_desc;
         private final TextView tv_price;
         private final TextView tv_pintuan_num;

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:background="@color/white"
     android:gravity="center"
@@ -9,11 +10,12 @@
     android:layout_marginLeft="5dp"
     android:orientation="vertical">
 
-    <ImageView
+    <com.android.library.YLCircleImageView
         android:id="@+id/img_goods_tupian"
         android:layout_width="164dp"
         android:layout_height="180dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:radius="5dp"/>
 
     <TextView
         android:id="@+id/tv_goods_desc"
@@ -21,6 +23,8 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="斯科"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="12sp" />
 
     <LinearLayout
@@ -48,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="已拼团"
+            android:text="销量"
+            android:textSize="12sp"
             android:textColor="@color/hint_text_color" />
 
         <TextView
@@ -59,6 +64,7 @@
             android:layout_marginLeft="5dp"
             android:paddingRight="5dp"
             android:text="1000"
+            android:textSize="12sp"
             android:textColor="@color/hint_text_color" />
 
 

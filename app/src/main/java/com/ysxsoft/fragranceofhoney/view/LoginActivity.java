@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -19,6 +20,7 @@ import com.ysxsoft.fragranceofhoney.MainActivity;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
 import com.ysxsoft.fragranceofhoney.modle.LoginBean;
+import com.ysxsoft.fragranceofhoney.modle.LoginDataBean;
 import com.ysxsoft.fragranceofhoney.modle.QQLoginBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
@@ -40,6 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_wechat, img_QQ;
     private Button btn_login;
     private ProgressDialog dialog;
+    public int type = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +103,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.img_wechat:
                 UMQQLoglin(SHARE_MEDIA.WEIXIN);
+                type = 1;
                 break;
             case R.id.img_QQ:
                 UMQQLoglin(SHARE_MEDIA.QQ);
+                type = 2;
                 break;
         }
     }
@@ -220,35 +225,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 JSONObject jsonObject = new JSONObject(map);
                 try {
-                    String openid = jsonObject.getString("uid");
+                    final String openid = jsonObject.getString("uid");
                     String nickname = jsonObject.getString("name");
                     String sex = jsonObject.getString("gender");
                     String avatar = jsonObject.getString("iconurl");
                     NetWork.getService(ImpService.class)
-                            .QQLoginData(openid, nickname, avatar, sex)
+                            .LoginData(openid, String.valueOf(type))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<QQLoginBean>() {
-                                private QQLoginBean qqLoginBean;
-
+                            .subscribe(new Observer<LoginDataBean>() {
                                 @Override
                                 public void onCompleted() {
-                                    if ("0".equals(qqLoginBean.getCode())) {
-                                        int uid = qqLoginBean.getUserinfo().getUid();
-                                        if (qqLoginBean.getUserinfo().getMobile_bind() == 0) {
-                                            Intent intent = new Intent(mContext, BindingPhoneNumActivity.class);
-                                            intent.putExtra("uid", String.valueOf(uid));
-                                            startActivity(intent);
-                                        } else {
-                                            Intent intent = new Intent(mContext, MainActivity.class);
-                                            intent.putExtra("uid", String.valueOf(uid));
-                                            startActivity(intent);
-                                            SharedPreferences.Editor spUid = getSharedPreferences("UID", Context.MODE_PRIVATE).edit();
-                                            spUid.putString("uid", String.valueOf(uid));
-                                            spUid.commit();
-                                            finish();
-                                        }
-                                    }
+
                                 }
 
                                 @Override
@@ -257,10 +245,50 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 }
 
                                 @Override
-                                public void onNext(QQLoginBean qqLoginBean) {
-                                    this.qqLoginBean = qqLoginBean;
+                                public void onNext(LoginDataBean loginDataBean) {
+
+
+                                    if (loginDataBean.getCode() == 205) {
+                                        Intent intent = new Intent(mContext, BindingPhoneNumActivity.class);
+//                                        intent.putExtra("uid", String.valueOf(uid));
+                                        intent.putExtra("type", String.valueOf(type));
+                                        intent.putExtra("openid", openid);
+                                        startActivity(intent);
+                                    } else {
+                                        int uid = loginDataBean.getData();
+                                        Intent intent = new Intent(mContext, MainActivity.class);
+                                        intent.putExtra("uid", String.valueOf(uid));
+                                        startActivity(intent);
+                                        SharedPreferences.Editor spUid = getSharedPreferences("UID", Context.MODE_PRIVATE).edit();
+                                        spUid.putString("uid", String.valueOf(uid));
+                                        spUid.commit();
+                                        finish();
+                                    }
                                 }
                             });
+
+//                    NetWork.getService(ImpService.class)
+//                            .QQLoginData(openid, nickname, avatar, sex)
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(new Observer<QQLoginBean>() {
+//                                private QQLoginBean qqLoginBean;
+//
+//                                @Override
+//                                public void onCompleted() {
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//                                    showToastMessage(e.getMessage());
+//                                }
+//
+//                                @Override
+//                                public void onNext(QQLoginBean qqLoginBean) {
+//                                    this.qqLoginBean = qqLoginBean;
+//                                }
+//                            });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

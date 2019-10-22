@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -14,19 +15,21 @@
         android:button="@drawable/shop_car_selector"
         android:gravity="center_vertical" />
 
-    <ImageView
+    <com.android.library.YLCircleImageView
         android:id="@+id/img_goods_tupian"
         android:layout_width="80dp"
         android:layout_height="86dp"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        app:radius="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/white_shape_bg"
         android:orientation="vertical">
@@ -35,13 +38,16 @@
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="爱的疯狂就啊哈考虑绝代风华阿斯顿发士大夫"
             android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -82,7 +88,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="bottom"
             android:orientation="horizontal">
 
             <TextView
@@ -105,17 +111,17 @@
             <TextView
                 android:id="@+id/tv_minus"
                 android:layout_width="24dp"
-                android:layout_height="22dp"
-                android:background="@drawable/add_minus_bg_shape"
-                android:gravity="center"
+                android:layout_height="24dp"
+                android:background="@drawable/minus_minus_bg_shape"
                 android:focusable="false"
-                android:text="－" />
+                android:gravity="center"
+                android:text="一" />
 
             <TextView
                 android:id="@+id/tv_num"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:background="@drawable/add_minus_bg_shape"
+                android:layout_height="24dp"
+                android:background="@drawable/number_minus_bg_shape"
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
@@ -125,11 +131,12 @@
             <TextView
                 android:id="@+id/tv_add"
                 android:layout_width="24dp"
-                android:layout_height="22dp"
+                android:layout_height="24dp"
                 android:background="@drawable/add_minus_bg_shape"
-                android:gravity="center"
                 android:focusable="false"
-                android:text="＋" />
+                android:gravity="center"
+                android:text="＋"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

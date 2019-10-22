@@ -114,10 +114,12 @@
             android:layout_marginTop="10dp" />
 
         <LinearLayout
+            android:id="@+id/ll_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="14dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
@@ -132,13 +134,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:digits="@string/pwd_type"
-                android:hint="请输入密码"
+                android:hint="请输入登录密码"
                 android:inputType="textPassword"
                 android:paddingLeft="14dp"
                 android:singleLine="true" />
 
 
         </LinearLayout>
+
 
     </LinearLayout>
 

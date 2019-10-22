@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.YLCircleImageView;
+import com.shehuan.niv.NiceImageView;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.modle.ClassifyDataBean;
 import com.ysxsoft.fragranceofhoney.utils.ImageLoadUtil;
@@ -52,7 +54,7 @@ public class GridContentAdapter extends RecyclerView.Adapter<GridContentAdapter.
     }
 
     public class MyViewHolde extends RecyclerView.ViewHolder{
-        private final ImageView img_goods_tupian;
+        private final YLCircleImageView img_goods_tupian;
         private final TextView tv_goods_name;
         public MyViewHolde(@NonNull View itemView) {
             super(itemView);
