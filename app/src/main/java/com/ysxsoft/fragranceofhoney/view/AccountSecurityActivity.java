@@ -98,11 +98,15 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
                 if ("1".equals(tradepassword)) {//tradepassword	1是设置过支付密码2是没有设置过
                     Intent intent = new Intent(mContext, ModifyTradePwdActivity.class);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("modify_pwd", "modify_pwd");
                     intent.putExtra("mobile", mobile);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(mContext, TradePwdActivity.class);
+//                    Intent intent = new Intent(mContext, TradePwdActivity.class);
+                    Intent intent = new Intent(mContext, ModifyTradePwdActivity.class);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("modify_pwd", "");
+                    intent.putExtra("mobile", mobile);
                     startActivity(intent);
                 }
                 break;

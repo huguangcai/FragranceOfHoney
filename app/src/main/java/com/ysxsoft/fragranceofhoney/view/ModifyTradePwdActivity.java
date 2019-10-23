@@ -28,6 +28,7 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
     private EditText ed_identify_code;
     private String uid;
     private String mobile;
+    private String modify_pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
         Intent intent = getIntent();
         uid = intent.getStringExtra("uid");
         mobile = intent.getStringExtra("mobile");
+        modify_pwd = intent.getStringExtra("modify_pwd");
         initView();
         initListener();
     }
@@ -43,7 +45,12 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
     private void initView() {
         img_back = getViewById(R.id.img_back);
         TextView tv_title = getViewById(R.id.tv_title);
-        tv_title.setText("修改交易密码");
+
+        if ("modify_pwd".equals(modify_pwd)) {
+            tv_title.setText("修改交易密码");
+        } else {
+            tv_title.setText("设置密码");
+        }
         tv_phone_before = getViewById(R.id.tv_phone_before);
         tv_phone_after = getViewById(R.id.tv_phone_after);
         ed_identify_code = getViewById(R.id.ed_identify_code);
@@ -98,7 +105,7 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
                         showToastMessage(checkCodeBean.getMsg());
                         if ("0".equals(checkCodeBean.getCode())){
                             Intent intent=new Intent(mContext,TradePwdActivity.class);
-                            intent.putExtra("modify_pwd","modify_pwd");
+                            intent.putExtra("modify_pwd",modify_pwd);
                             intent.putExtra("uid", uid);
                             startActivity(intent);
                         }

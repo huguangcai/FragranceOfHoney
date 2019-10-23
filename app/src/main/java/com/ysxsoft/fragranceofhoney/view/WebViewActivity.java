@@ -494,6 +494,7 @@ public class WebViewActivity extends BaseActivity {
                                                         public void onClick(View v) {
                                                             Intent intent = new Intent(mContext, ModifyTradePwdActivity.class);
                                                             intent.putExtra("uid", uid);
+                                                            intent.putExtra("modify_pwd", "modify_pwd");
                                                             intent.putExtra("mobile", data.getMobile());
                                                             startActivity(intent);
                                                         }
@@ -511,8 +512,13 @@ public class WebViewActivity extends BaseActivity {
                                                     payPwdDilaog.show();
                                                 } else {
                                                     failJumpWaitPay();
-                                                    Intent intent = new Intent(mContext, TradePwdActivity.class);
+//                                                    Intent intent = new Intent(mContext, TradePwdActivity.class);
+//                                                    intent.putExtra("uid", uid);
+//                                                    startActivity(intent);
+                                                    Intent intent = new Intent(mContext, ModifyTradePwdActivity.class);
                                                     intent.putExtra("uid", uid);
+                                                    intent.putExtra("modify_pwd", "");
+                                                    intent.putExtra("mobile", data.getMobile());
                                                     startActivity(intent);
                                                 }
                                             }
