@@ -34,7 +34,7 @@
                 style="@style/edittext_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="输入您要搜索的商品"
+                android:hint="输入您要搜索的内容"
                 android:paddingLeft="15dp"
                 android:singleLine="true"
                 android:textColor="@color/black"

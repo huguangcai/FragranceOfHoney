@@ -35,6 +35,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/img_logo"
         android:supportsRtl="true"
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
         android:theme="@style/AppTheme">
 
         <meta-data

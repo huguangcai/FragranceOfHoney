@@ -54,7 +54,7 @@
                     android:id="@+id/tv_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="删除" />
+                    android:text="清除" />
 
             </LinearLayout>
 

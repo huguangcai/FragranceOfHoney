@@ -84,7 +84,7 @@ public class LauncherActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onCompleted() {
                         if ("0".equals(launcherImgBean.getCode())){
-                            Glide.with(BaseApplication.getContext()).load(launcherImgBean.getData().getImgurl()).into(img_launcher);
+                            Glide.with(mContext).load(launcherImgBean.getData().getImgurl()).into(img_launcher);
                         }
                     }
 
