@@ -639,6 +639,7 @@ public class ShopCardFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
+        isManager = false;
         onRefresh();
     }
 }

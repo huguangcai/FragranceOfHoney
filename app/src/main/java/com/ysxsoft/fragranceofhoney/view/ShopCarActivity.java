@@ -629,6 +629,7 @@ public class ShopCarActivity extends BaseActivity implements SwipeRefreshLayout.
     @Override
     public void onResume() {
         super.onResume();
+        isManager = false;
         onRefresh();
     }
 }
