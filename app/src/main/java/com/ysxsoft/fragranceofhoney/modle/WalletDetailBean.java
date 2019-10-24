@@ -67,6 +67,15 @@ public class WalletDetailBean {
         private int type;
         private String values;
         private String addtime;
+        private int types;
+
+        public int getTypes() {
+            return types;
+        }
+
+        public void setTypes(int types) {
+            this.types = types;
+        }
 
         public int getUid() {
             return uid;

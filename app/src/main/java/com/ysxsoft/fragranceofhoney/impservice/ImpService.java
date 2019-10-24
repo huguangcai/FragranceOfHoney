@@ -342,7 +342,8 @@ public interface ImpService {
 
 
     //  钱包明细  type 1是充值2提现3消费4返利
-    @POST("index/detail")
+//    @POST("index/detail")
+    @POST("personal/money_detail")
     Observable<WalletDetailBean> WalletDetailData(@Query("uid") String uid,
                                                   @Query("type") String type,
                                                   @Query("page") String page);
