@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gyf.immersionbar.ImmersionBar;
 import com.ysxsoft.fragranceofhoney.MainActivity;
 import com.ysxsoft.fragranceofhoney.R;
 import com.ysxsoft.fragranceofhoney.impservice.ImpService;
@@ -40,6 +41,9 @@ public class LauncherActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.laucher_layout);
         SharedPreferences sp = getSharedPreferences("IS_FIRST", Context.MODE_PRIVATE);
         is_first = sp.getBoolean("is_first", false);
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.btn_color)
+                .init();
         initView();
         requestData();
         initListener();
