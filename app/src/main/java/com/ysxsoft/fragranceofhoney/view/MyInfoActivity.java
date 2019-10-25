@@ -83,26 +83,28 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(View view, int position) {
                 MessageListBean.DataBean dataBean = mDataAdapter.getDataList().get(position);
-                String sid = dataBean.getSid();
+                String sid = dataBean.getId();
                 if (dataBean.getFlag() == 2) {
                     switch (dataBean.getTypes()) {
-                        case "1"://待发货
+                        case "1"://	1拼团成功    //待发货
                             Intent fahuointent = new Intent(mContext, WebViewActivity.class);
-                            String fahuourl = NetWork.H5BaseUrl + "order?sc=2&status=" + "3" + "&uid=" + uid;
+//                            String fahuourl = NetWork.H5BaseUrl + "order?sc=2&status=" + "3" + "&uid=" + uid;
+                            String fahuourl = NetWork.H5BaseUrl + "order?sc=2&status=" + "2" + "&uid=" + uid;
                             fahuointent.putExtra("uid", uid);
                             fahuointent.putExtra("url", fahuourl);
                             fahuointent.putExtra("flag", "myfragment");
                             startActivity(fahuointent);
                             break;
-                        case "2"://待收货
+                        case "2"://2商家已发货   //待收货
                             Intent goodsintent = new Intent(mContext, WebViewActivity.class);
-                            String goodsurl = NetWork.H5BaseUrl + "order?sc=2&status=" + "4" + "&uid=" + uid;
+//                            String goodsurl = NetWork.H5BaseUrl + "order?sc=2&status=" + "4" + "&uid=" + uid;
+                            String goodsurl = NetWork.H5BaseUrl + "order?sc=2&status=" + "3" + "&uid=" + uid;
                             goodsintent.putExtra("uid", uid);
                             goodsintent.putExtra("url", goodsurl);
                             goodsintent.putExtra("flag", "myfragment");
                             startActivity(goodsintent);
                             break;
-                        case "3"://退货
+                        case "3"://3退货成功    //退货
                             Intent returnintent = new Intent(mContext, WebViewActivity.class);
                             String returnurl = NetWork.H5BaseUrl + "order?sc=2&status=" + "5" + "&uid=" + uid;
                             returnintent.putExtra("uid", uid);
@@ -110,7 +112,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                             returnintent.putExtra("flag", "myfragment");
                             startActivity(returnintent);
                             break;
-                        case "4"://退货
+                        case "4":// 4退货失败      //退货
                             Intent returnintent1 = new Intent(mContext, WebViewActivity.class);
                             String returnurl1 = NetWork.H5BaseUrl + "order?sc=2&status=" + "5" + "&uid=" + uid;
                             returnintent1.putExtra("uid", uid);
@@ -118,7 +120,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                             returnintent1.putExtra("flag", "myfragment");
                             startActivity(returnintent1);
                             break;
-                        case "5"://全部
+                        case "5":// 5拼团失败     //全部
                             Intent allintent = new Intent(mContext, WebViewActivity.class);
                             String allurl = NetWork.H5BaseUrl + "order?sc=2&status=" + "0" + "&uid=" + uid;
                             allintent.putExtra("uid", uid);
@@ -129,7 +131,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                     }
                 } else {
                     Intent intent = new Intent(mContext, InfoDetailActivity.class);
-                    intent.putExtra("sid", dataBean.getSid());
+                    intent.putExtra("sid", dataBean.getId());
                     startActivity(intent);
                 }
                 LookInfo(sid);
@@ -267,7 +269,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
 
                     @Override
                     public void onCompleted() {
-                        if ("0".equals(messageListBean.getCode())) {
+                        if (messageListBean.getCode()==0) {
                             if (messageListBean.getData().size()<=0){
                                 ll_no_hava_data.setVisibility(View.VISIBLE);
                                 mSwipeRefreshLayout.setVisibility(View.GONE);

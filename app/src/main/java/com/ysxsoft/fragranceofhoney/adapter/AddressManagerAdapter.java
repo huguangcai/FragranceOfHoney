@@ -33,7 +33,7 @@ public class AddressManagerAdapter extends ListBaseAdapter<GetGoodsAddressBean.D
         CheckBox cb_box = holder.getView(R.id.cb_box);
         tv_name.setText(dataBean.getLinkname());
         tv_phone_num.setText(dataBean.getPhone());
-        tv_address.setText(dataBean.getAddress());
+        tv_address.setText(dataBean.getProvice()+dataBean.getCity()+dataBean.getArea()+dataBean.getAddress());
         if (dataBean.getIs_ture() == 0) {//0  默认  1是非默认
             cb_box.setChecked(true);
         } else {

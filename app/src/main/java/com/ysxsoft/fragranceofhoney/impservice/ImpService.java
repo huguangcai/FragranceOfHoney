@@ -374,7 +374,8 @@ public interface ImpService {
                                         @Query("type") String type);
 
     //消息列表
-    @POST("index/message")
+//    @POST("index/message")
+    @POST("personal/notice")
     Observable<MessageListBean> MessageListData(@Query("uid") String uid,
                                                 @Query("page") String page);
 

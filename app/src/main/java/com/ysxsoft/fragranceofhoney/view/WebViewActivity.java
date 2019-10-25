@@ -1,5 +1,6 @@
 package com.ysxsoft.fragranceofhoney.view;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,6 +28,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.permissions.RxPermissions;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -61,18 +67,23 @@ import com.ysxsoft.fragranceofhoney.modle.WxPayBean;
 import com.ysxsoft.fragranceofhoney.utils.AppUtil;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.CustomDialog;
+import com.ysxsoft.fragranceofhoney.utils.FileUtils;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 import com.ysxsoft.fragranceofhoney.utils.alipay.PayResult;
 import com.ysxsoft.fragranceofhoney.widget.PayDialogBottom;
 import com.ysxsoft.fragranceofhoney.widget.PayPwdDilaog;
 import com.ysxsoft.fragranceofhoney.widget.PayPwdEditText;
+import com.ysxsoft.fragranceofhoney.widget.SelectDialog;
 import com.ysxsoft.fragranceofhoney.widget.ShareDialog;
 import com.ysxsoft.fragranceofhoney.widget.browser.OpenFileWebChromeClient;
 import com.ysxsoft.fragranceofhoney.widget.browser.X5WebView;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
+import io.reactivex.functions.Consumer;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -178,7 +189,6 @@ public class WebViewActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         webView.getView().setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         webView.setWebViewClient(new MyWebViewClient());
-        MyWebChromeClient myWebChromeClient = new MyWebChromeClient();
         webView.addJavascriptInterface(new JavaInterface(), "aa");//js 调用Java代码
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);//支持js
@@ -237,94 +247,6 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
-    public class MyWebChromeClient extends WebChromeClient {
-
-        @Override
-        public boolean onJsAlert(WebView webView, String s, String s1, JsResult jsResult) {
-            /**
-             * 这里写入你自定义的window alert
-             */
-            return super.onJsAlert(webView, s, s1, jsResult);
-        }
-
-        @Override
-        public boolean onJsConfirm(WebView webView, String s, String s1, JsResult jsResult) {
-            return super.onJsConfirm(webView, s, s1, jsResult);
-        }
-
-        @Override
-        public boolean onJsPrompt(WebView webView, String s, String s1, String s2, JsPromptResult jsPromptResult) {
-            return super.onJsPrompt(webView, s, s1, s2, jsPromptResult);
-        }
-
-        View myVideoView;
-        View myNormalView;
-        IX5WebChromeClient.CustomViewCallback callback;
-
-        @Override
-        public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback customViewCallback) {
-            super.onShowCustomView(view, customViewCallback);
-            FrameLayout normalView = (FrameLayout) findViewById(R.id.acty_web_layout_content);
-            ViewGroup viewGroup = (ViewGroup) normalView.getParent();
-            viewGroup.removeView(normalView);
-            viewGroup.addView(view);
-            myVideoView = view;
-            myNormalView = normalView;
-            callback = customViewCallback;
-        }
-
-        @Override
-        public void onHideCustomView() {
-            super.onHideCustomView();
-            if (callback != null) {
-                callback.onCustomViewHidden();
-                callback = null;
-            }
-            if (myVideoView != null) {
-                ViewGroup viewGroup = (ViewGroup) myVideoView.getParent();
-                viewGroup.removeView(myVideoView);
-                viewGroup.addView(myNormalView);
-            }
-        }
-
-//        @Override
-//        public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
-//            WebView newWebView = new WebView(mContext);
-//            view.addView(newWebView);
-//            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-//            transport.setWebView(newWebView);
-//            resultMsg.sendToTarget();
-//            return true;
-//        }
-
-        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-            Log.i("test", "openFileChooser 1");
-            WebViewActivity.this.uploadFile = uploadFile;
-            openFileChooseProcess();
-        }
-
-        // For Android < 3.0
-        public void openFileChooser(ValueCallback<Uri> uploadMsgs) {
-            Log.i("test", "openFileChooser 2");
-            WebViewActivity.this.uploadFile = uploadFile;
-            openFileChooseProcess();
-        }
-
-        // For Android  > 4.1.1
-        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-            Log.i("test", "openFileChooser 3");
-            WebViewActivity.this.uploadFile = uploadFile;
-            openFileChooseProcess();
-        }
-
-        // For Android  >= 5.0
-        public boolean onShowFileChooser(com.tencent.smtt.sdk.WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-            Log.i("test", "openFileChooser 4:" + filePathCallback.toString());
-            openFileChooseProcess();
-            return true;
-        }
-    }
-
     public class JavaInterface {
 
         @JavascriptInterface
@@ -358,7 +280,7 @@ public class WebViewActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     shareDialog.dismiss();
-                    shareGoodsUrl(Url, text,"香芊蜜韵官方旗舰店",imgUrl);
+                    shareGoodsUrl(Url, text, "香芊蜜韵官方旗舰店", imgUrl);
                 }
             });
             shareDialog.show();
@@ -552,12 +474,13 @@ public class WebViewActivity extends BaseActivity {
 
     /**
      * 分享商品详情界面
+     *
      * @param url
-     * @param text 分享提示语
-     * @param title 分享标题
+     * @param text   分享提示语
+     * @param title  分享标题
      * @param imgUrl 分享展示图片
      */
-    private void shareGoodsUrl(String url, String text, String title,String imgUrl) {
+    private void shareGoodsUrl(String url, String text, String title, String imgUrl) {
         UMWeb umWeb = new UMWeb(url);
         umWeb.setTitle(title);
         umWeb.setThumb(new UMImage(mContext, imgUrl));
@@ -618,8 +541,8 @@ public class WebViewActivity extends BaseActivity {
 
     /**
      * 分享url
-     * @param loginurl
-     *    分享提示语
+     *
+     * @param loginurl 分享提示语
      */
     private void shareUrl(String loginurl) {
         UMWeb umWeb = new UMWeb(loginurl);
@@ -764,9 +687,9 @@ public class WebViewActivity extends BaseActivity {
                     public void onCompleted() {
                         showToastMessage(payBalanceBean.getMsg());
                         AppUtil.colsePhoneKeyboard(WebViewActivity.this);
-                        if (payBalanceBean.getCode()==0) {
+                        if (payBalanceBean.getCode() == 0) {
                             sucessfulJump();
-                        } else if (payBalanceBean.getCode()==3) {
+                        } else if (payBalanceBean.getCode() == 3) {
 
                         } else {
                             failJumpWaitPay();
@@ -842,11 +765,14 @@ public class WebViewActivity extends BaseActivity {
                 mOpenFileWebChromeClient.mFilePathCallbacks.onReceiveValue(null);
                 mOpenFileWebChromeClient.mFilePathCallbacks = null;
             }
+        }else {
+
         }
     }
 
     private void onReceiveImage(final Intent intent, final ValueCallback<Uri> filePathCallback, final ValueCallback<Uri[]> filePathCallbacks) {
-        Uri imageUri = intent.getData(); //获取系统返回的照片的Uri
+        final List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(intent);
+        Uri imageUri = Uri.parse(localMedia.get(0).getPath());
         if (filePathCallback != null) {
             filePathCallback.onReceiveValue(imageUri);
         }
