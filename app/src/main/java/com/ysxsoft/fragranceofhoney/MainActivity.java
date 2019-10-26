@@ -150,11 +150,12 @@ public class MainActivity extends BaseActivity {
                             // 0代表相等，1代表version1大于version2，-1代表version1小于version2
                             if (i == -1) {
                                 dialog = new UpdateDialog(mContext);
-                                TextView tv_update = dialog.findViewById(R.id.tv_update);
+                                final TextView tv_update = dialog.findViewById(R.id.tv_update);
                                 proBar = dialog.findViewById(R.id.proBar);
                                 tv_update.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        tv_update.setClickable(false);
                                         proBar.setVisibility(View.VISIBLE);
                                         if (TextUtils.isEmpty(versionBean.getData().getLink())) {
                                             dialog.dismiss();

@@ -14,6 +14,10 @@ import com.ysxsoft.fragranceofhoney.modle.SystemDetialBean;
 import com.ysxsoft.fragranceofhoney.utils.BaseActivity;
 import com.ysxsoft.fragranceofhoney.utils.NetWork;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -61,7 +65,7 @@ public class InfoDetailActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         if ("0".equals(systemDetialBean.getCode())) {
-                            web_content.loadDataWithBaseURL(null, systemDetialBean.getData().getText(), "text/html", "utf-8", null);
+                            web_content.loadDataWithBaseURL(null, getNewContent(systemDetialBean.getData().getText()), "text/html", "utf-8", null);
                         }
                     }
 
@@ -85,5 +89,13 @@ public class InfoDetailActivity extends BaseActivity {
             view.loadUrl(url);
             return true;
         }
+    }
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (int i = 0; i < elements.size(); i++) {
+            elements.get(i).attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
     }
 }

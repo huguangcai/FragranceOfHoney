@@ -37,6 +37,7 @@ public class MyInfoAdapter extends ListBaseAdapter<MessageListBean.DataBean> {
         TextView tv_is_title = holder.getView(R.id.tv_is_title);
         TextView tv_time = holder.getView(R.id.tv_time);
         TextView tv_red_point = holder.getView(R.id.tv_red_point);
+        TextView tv_info_title = holder.getView(R.id.tv_info_title);
         FrameLayout fl_bg = holder.getView(R.id.fl_bg);
         MyWebView web_content = holder.getView(R.id.web_content);
         WebSettings webSettings = web_content.getSettings();
@@ -77,7 +78,8 @@ public class MyInfoAdapter extends ListBaseAdapter<MessageListBean.DataBean> {
             fl_bg.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             tv_is_title.setText("系统消息");
-            web_content.loadDataWithBaseURL(null,dataBean.getText(), "text/html", "utf-8", null);
+            tv_info_title.setText(dataBean.getText());
+//            web_content.loadDataWithBaseURL(null,dataBean.getText(), "text/html", "utf-8", null);
         }
         if (dataBean.getNews() == 0) {//0是未读1是已读
             tv_red_point.setVisibility(View.VISIBLE);

@@ -47,16 +47,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="5dp"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        android:padding="5dp">
 
         <com.ysxsoft.fragranceofhoney.widget.MyWebView
             android:id="@+id/web_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="WebViewLayout"
             android:background="@color/transparent"
+            android:visibility="gone"
+            tools:ignore="WebViewLayout"
             tools:text="系统版本升级至3.1版本，请及时点击升级至最新版本最新版本系统版本升级至3.1版本，请及时点击升级至最新..." />
+
+        <TextView
+            android:id="@+id/tv_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="系统版本升级至3.1版本，请及时点击升级至最新版本最新版本系统版本升级至3.1版本，请及时点击升级至最新..." />
+        />
+
     </FrameLayout>
 
     <com.ysxsoft.fragranceofhoney.widget.InfoRecyclerView

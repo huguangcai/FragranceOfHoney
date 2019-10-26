@@ -7,7 +7,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.7"
+        versionName "1.0.8"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -107,4 +107,5 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+    implementation 'org.jsoup:jsoup:1.12.1'
 }
