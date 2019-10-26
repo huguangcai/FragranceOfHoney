@@ -349,12 +349,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SocializeUtils.safeCloseDialog(dialog);
         UMShareAPI.get(this).release();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        SocializeUtils.safeCloseDialog(dialog);
         UMShareAPI.get(this).onSaveInstanceState(outState);
     }
 
