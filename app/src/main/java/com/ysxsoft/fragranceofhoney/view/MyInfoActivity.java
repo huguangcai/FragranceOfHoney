@@ -132,6 +132,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                 } else {
                     Intent intent = new Intent(mContext, InfoDetailActivity.class);
                     intent.putExtra("sid", dataBean.getId());
+                    intent.putExtra("uid", uid);
                     startActivity(intent);
                 }
                 LookInfo(sid);
@@ -172,7 +173,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
 
                     @Override
                     public void onCompleted() {
-                        showToastMessage(lookedMessageBean.getMsg());
+//                        showToastMessage(lookedMessageBean.getMsg());
                     }
 
                     @Override

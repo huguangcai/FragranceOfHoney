@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                     public void onCompleted() {
                         if ("0".equals(balanceMoneyBean.getCode())) {
                             if (balanceMoneyBean.getData().getNews() == 0) {//0是未读1是已读
-                                img_title_right.setBackgroundResource(R.mipmap.img_have_info);
+                                img_title_right.setBackgroundResource(R.mipmap.icon_have_info);
                             } else {
                                 img_title_right.setBackgroundResource(R.mipmap.img_no_info);
                             }

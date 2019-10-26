@@ -20,7 +20,7 @@ import rx.schedulers.Schedulers;
 
 public class InfoDetailActivity extends BaseActivity {
     private WebView web_content;
-    private String sid;
+    private String sid,uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class InfoDetailActivity extends BaseActivity {
         setContentView(R.layout.info_detail_layout);
         Intent intent = getIntent();
         sid = intent.getStringExtra("sid");
+        uid = intent.getStringExtra("uid");
         View img_back = getViewById(R.id.img_back);
         TextView tv_title = getViewById(R.id.tv_title);
         tv_title.setText("消息详情");
@@ -51,7 +52,7 @@ public class InfoDetailActivity extends BaseActivity {
 
     private void requestData() {
         NetWork.getService(ImpService.class)
-                .SystemDetialData(sid)
+                .SystemDetialData(uid,sid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<SystemDetialBean>() {

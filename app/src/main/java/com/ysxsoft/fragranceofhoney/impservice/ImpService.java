@@ -390,7 +390,7 @@ public interface ImpService {
 
     //系统 消息详情
     @POST("index/details")
-    Observable<SystemDetialBean> SystemDetialData(@Query("sid") String sid);
+    Observable<SystemDetialBean> SystemDetialData(@Query("uid") String uid,@Query("sid") String sid);
 
     //校验验证码
     @POST("index/Pwd")
