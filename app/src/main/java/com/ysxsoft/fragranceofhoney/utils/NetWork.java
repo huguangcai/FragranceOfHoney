@@ -8,13 +8,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetWork {
 //    public static String BaseUrl = "http://bzdsh.sanzhima.cn/admin.php/api/";
-//    public static String BaseUrl = "http://www.xiangqianmiyun.com/admin.php/api/";
-    public static String BaseUrl = "http://xiangqianmiyun.ysxapp.com/admin.php/api/";
+    public static String BaseUrl = "http://www.xiangqianmiyun.com/admin.php/api/";
+//    public static String BaseUrl = "http://xiangqianmiyun.ysxapp.com/admin.php/api/";
 
 //    public static String H5BaseUrl = "http://192.168.1.101:8080/#/";
 //    public static String H5BaseUrl = "http://bzdsh.sanzhima.cn/#/";
-//    public static String H5BaseUrl = "http://www.xiangqianmiyun.com/indexs/#/";
-    public static String H5BaseUrl = "http://xiangqianmiyun.ysxapp.com/indexs/#/";
+    public static String H5BaseUrl = "http://www.xiangqianmiyun.com/indexs/#/";
+//    public static String H5BaseUrl = "http://xiangqianmiyun.ysxapp.com/indexs/#/";
 
     public static String getUid() {
         return uid;

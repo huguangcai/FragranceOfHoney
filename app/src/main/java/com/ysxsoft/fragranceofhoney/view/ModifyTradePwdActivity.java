@@ -1,6 +1,9 @@
 package com.ysxsoft.fragranceofhoney.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -29,6 +32,7 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
     private String uid;
     private String mobile;
     private String modify_pwd;
+    private MyBroadCast myBroadCast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,23 @@ public class ModifyTradePwdActivity extends BaseActivity implements View.OnClick
         modify_pwd = intent.getStringExtra("modify_pwd");
         initView();
         initListener();
+        myBroadCast = new MyBroadCast();
+        IntentFilter filter = new IntentFilter("FINISH");
+        registerReceiver(myBroadCast,filter);
+    }
+    public  class MyBroadCast extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("FINISH".equals(intent.getAction())){
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myBroadCast);
     }
 
     private void initView() {

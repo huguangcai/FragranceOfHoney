@@ -96,6 +96,8 @@ public class TradePwdActivity extends BaseActivity {
                     public void onCompleted() {
                         showToastMessage(modifyTradePwdBean.getMsg());
                         if ("0".equals(modifyTradePwdBean.getCode())) {
+                            Intent intent = new Intent("FINISH");
+                            sendBroadcast(intent);
                             finish();
                         }
                     }
